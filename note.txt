@@ -1,0 +1,2 @@
+sql injection possible ->semester and quiz directly sql is used not prepare statemnt
+
