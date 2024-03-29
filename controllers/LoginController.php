@@ -1,7 +1,7 @@
 <?php
 // controllers/LoginController.php
 
-require_once 'models/UserModel.php';
+require_once 'models/LoginModel.php';
 class LoginController{
   public function displayLoginForm(){
     include 'views/login.php';
@@ -24,7 +24,6 @@ class LoginController{
         exit;
       } else {
         //Failed Login 
-        echo "Login failed";
         //You may set an error message and display it on the login form
         //For simplicity, we'll redirect back t the login form
         header('Location: ?route=login');
@@ -38,7 +37,7 @@ class LoginController{
     // Check against the or any autthnication mechainsm
     // Return true on successful validation, false otherwise
     // Example: check aginst a user table in the database
-    $userModel = new UserModel();
+    $userModel = new LoginModel();
     return $userModel->validateCredentials($username, $password);
   }
 }

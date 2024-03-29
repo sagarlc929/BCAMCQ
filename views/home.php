@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initital-scale=1.0">
   <title>Welcome to BCA MCQ</title>
-  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+  <link rel="stylesheet" type="text/css" href="css/home-style.css">
 </head>
 <body>
   <header>
@@ -16,6 +16,7 @@
       <li><a href="?route=home">Home</a></li>
       <li><a href="?route=login">Login</a></li>
       <li><a href="?route=register">Register</a></li>
+      <li><a href="?route=admin">Admin</a></li>
     </ul>
   </nav>
   

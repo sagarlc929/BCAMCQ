@@ -7,7 +7,7 @@
     <title>User Dashboard</title>
     <!---<link rel="stylesheet" href="/css/styles.css"> -->
 
-    <link rel="stylesheet" href="css/UserDashboard.css">
+    <link rel="stylesheet" href="css/user-dashboard-style.css">
   </head>
   <body>
     <h1>Welcom to Your Dashboard</h1>

@@ -20,13 +20,13 @@ class QuizModel {
 
 $query = "SELECT description, option_A, option_B, option_C, option_D, answer, explanation 
           FROM question 
-          NATURAL JOIN question_subject 
-          NATURAL JOIN subject_semester 
+          NATURAL JOIN subject_question 
+          NATURAL JOIN semester_subject 
           NATURAL JOIN subject 
           NATURAL JOIN semester 
           WHERE subject.subject_name = '$subject' AND semester.semester_name = '$semester' 
           ORDER BY RAND() 
-          LIMIT 2";
+          LIMIT 10";
 
     $result = $this->conn->query($query);
 

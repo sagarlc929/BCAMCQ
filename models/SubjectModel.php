@@ -12,10 +12,10 @@ class SubjectModel {
     }
   }
 public function getSubjects($semesterName) {
-    $semesterNametemp = "First Semester";
+    //$semesterNametemp = "First Semester";
         // Query to fetch subjects from the database
         $sql_select = "SELECT subject_name FROM subject 
-                       NATURAL JOIN subject_semester 
+                       NATURAL JOIN semester_subject 
                        NATURAL JOIN semester 
                        WHERE semester_name = '$semesterName'";
 

@@ -1,14 +1,20 @@
+<!---
+   $adminLoginController = new AdminLoginController();
+    $adminLoginController->displayAdminLoginForm();
+    $adminLoginController->processAdminLogin();
+    break;
 
+-->
 <?php
-// controllers/UserRegister.php
+// controllers/LoginController.php
 
-require_once 'models/UserModel.php';
-class UserRegister{
-  public function displayRegister(){
-    include 'views/register/register_form.php';
+require_once 'models/AdminLoginModel.php';
+class AdminLoginController{
+  public function displayAdminLoginForm(){
+    include 'views/admin/admin_login.php';
   }
 
-  public function processSubmitForm(){
+  public function processAdminLogin(){
     // Check if the login form s submitted
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
       // Retrieve the submitted username and password
@@ -21,14 +27,13 @@ class UserRegister{
         // Redirect to the dashboard or another page
         $_SESSION['usrname']=$username;
         echo"login successfull";
-        header('Location: ?route=user_dashboard');
+        header('Location: ?route=admin_dashboard');
         exit;
       } else {
         //Failed Login 
-        echo "Login failed";
         //You may set an error message and display it on the login form
         //For simplicity, we'll redirect back t the login form
-        header('Location: ?route=login');
+        header('Location: ?route=admin');
         exit;
       }
     }
@@ -39,8 +44,8 @@ class UserRegister{
     // Check against the or any autthnication mechainsm
     // Return true on successful validation, false otherwise
     // Example: check aginst a user table in the database
-    $userModel = new UserModel();
-    return $userModel->validateCredentials($username, $password);
+    $adminLoginModel = new AdminLoginModel();
+    return $adminLoginModel->validateCredentials($username, $password);
   }
 }
 ?>

@@ -6,7 +6,8 @@ const correctAnswer = document.getElementById("correct-answer");
 const wrongAnswers = [];
 var currentQuestion = 0;
 var score = 0;
-console.log("quiz.js");
+//console.log("hi sagar");
+//console.log("questions");
 function showQuestion() {
   clearOptionsContainer()
   const currentQuestionObject = questions[currentQuestion];
@@ -17,16 +18,16 @@ function showQuestion() {
     const radioButton = document.createElement("input");
     radioButton.type = "radio";
     radioButton.name = "option";
-    radioButton.id = String.fromCharCode(97 + index); // ASCII value of a is 97
+    radioButton.id = String.fromCharCode(65 + index); // ASCII value of a is 65
 
     // Create lable for radio button
     const label = document.createElement("label");
     label.textContent = option;
-    label.setAttribute("for", String.fromCharCode(97 + index));
+    label.setAttribute("for", String.fromCharCode(65 + index));
 
     // Creating div to store row radio button and it's label
     const div = document.createElement("div");
-    div.id = "option-" + String.fromCharCode(97 + index);
+    div.id = "option-" + String.fromCharCode(65 + index);
     // Append radio button and label div in continer
     optionsContainer.appendChild(div);
     div.appendChild(radioButton);
@@ -104,8 +105,10 @@ function explainAnswer() {
 
     if (wrongQnNumberArr.includes(i)) {
       quizDiv.classList.add("wrongAnsweredQn");
+      quizDiv.classList.add("card");
     } else {
       quizDiv.classList.add("correctAnsweredQn");
+      quizDiv.classList.add("card");
     }
 
     console.log(wrongQnNumberArr);
@@ -117,7 +120,7 @@ function explainAnswer() {
 
     question.options.forEach((option, index) => {
       const eachOption = document.createElement("div");
-      const idChar = String.fromCharCode(97 + index); // ASCII value of a is 97
+      const idChar = String.fromCharCode(65 + index); // ASCII value of a is 97
       eachOption.id = idChar;
       if (idChar === wrongQnOptionArr[i]) {
         eachOption.classList.add("wrong-option");
@@ -150,4 +153,3 @@ function showResultDiv() {
 //test  
 //showResult();
 showQuestion();
-isplayQuiz();
