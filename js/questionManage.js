@@ -1,50 +1,81 @@
+//var allQuestion = <?php echo json_encode($allQuestion); ?>;
+generateTable(allQuestion); //questions.innerHTML = generateTable(allQuestion);
+ function generateTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
 
-//<div id="questions">
-
-const questions = document.getElementById("questions");
-//var allQuestion = <?php echo json_encode($AllQuestion); ?>;
-//console.log(allQuestion);
-
-questions.innerHTML = generateTable(allQuestion);
-    function generateTable(data) {
-      let table = '<table border="1">';
-      table += '<tr><th>ID</th><th>Description</th><th>Option A</th><th>Option B</th><th>Option C</th><th>Option D</th><th>Answer</th><th>Explanation</th><th>Manage</th></tr>';
-      
-      data.forEach(item => {
-        table += '<tr>';
-        table += `<td>${item.question_id}</td>`;
-        table += `<td>${item.description}</td>`;
-        table += `<td>${item.option_A}</td>`;
-        table += `<td>${item.option_B}</td>`;
-        table += `<td>${item.option_C}</td>`;
-        table += `<td>${item.option_D}</td>`;
-        table += `<td>${item.answer}</td>`;
-    table += `<td>${item.explanation}</td>`;
-  
-table += `<td>
- <form action="?route=question_manage" method="POST">
-  <input type="hidden" name="action" value="delete">
-  <input type="hidden" onclick="deleteQuestion()" name="question_id" value="${item.question_id}"> <!-- Replace "1" with the actual question ID -->
-  <button type="submit">Delete</button>
-</form>
-  <form action="?route=question_manage&action=modify" method="POST">
-    <input type="hidden" name="question_id" value="${item.question_id}">
-    <button type="submit">Modify</button>
-  </form>
-</td>`;
-table += '</tr>';
-
-      });
-
-      table += '</table>';
-      return table;
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                  row.id = item.question_id;
+                row.innerHTML = `
+                    <td>${item.question_id}</td>
+                    <td>${item.description}</td>
+                    <td>${item.option_A}</td>
+                    <td>${item.option_B}</td>
+                    <td>${item.option_C}</td>
+                    <td>${item.option_D}</td>
+                    <td>${item.answer}</td>
+                    <td>${item.explanation}</td>
+                    <td class="table-controls">
+                        <button class="deleteBtn" type="button" data-question-id="${item.question_id}">DELETE</button>
+                        <button class="modifyBtn" type="button">Modify</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
 }
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all the buttons with the class 'deleteBtn'
+  const deleteBtns = document.querySelectorAll('.deleteBtn');
 
-function deleteQuestion() {
-  // Prompt the user for confirmation
-  if (confirm("Are you sure you want to delete this question?")) {
-  }
-}
+  // Loop through each button and add a click event listener
+  deleteBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const questionId = btn.dataset.questionId;
+      console.log(`Question ID: ${questionId}`);
+      // Do something with the questionId, e.g., send an AJAX request to delete the question
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+         // document.getElementById("demo").innerHTML =
+          console.log("onready:1");
+         console.log(this.responseText);
+          const responseObject = JSON.parse(this.responseText);
+           // responseObject.message
+          
+        document.getElementById('message').innerText = responseObject.message;
+        const rowToDelete = document.getElementById(questionId);
+        if(responseObject.delete_flag == 1){
+            if (rowToDelete) {
+              rowToDelete.remove();
+            }
+          }
+        }
+      };
+     // Use the POST method and set the appropriate content type
+     xhttp.open("POST", "?route=question_manage");
+     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+     // Send the request with the questionId as data
+    let data = `action=delete&question_id=${questionId}`;
+     xhttp.send(data);
+    });
+  });
+});
+  /*
+  const deleteElements = document.querySelectorAll('.deleteBtn');
+  deleteElements.forEach.addEventListener('click',()=>{
+
+  const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("demo").innerHTML =
+        this.responseText;
+      }
+    };
+    xhttp.open("GET", `?route=question_manage&action=delete&id=${id}`);
+    xhttp.send(); 
+    });
+  */
 

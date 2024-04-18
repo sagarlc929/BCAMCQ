@@ -66,15 +66,14 @@ switch ($route) {
         $userManageController->displayUserManageDashboard();
         break;
     case 'question_manage':
+        require_once 'models/QuestionManageModel.php';
         require_once 'controllers/QuestionManageController.php';
-        $questionManageController = new QuestionManageController();
-        $questionManageController->displayQuestionManageDashboard();
-        $questionManageController->processQuestionManage();
         break;
     case 'question_form':
-      require_once 'controllers/QuestionFormController.php';
-      $questionFormController = new QuestionFormController;
-      $questionFormController->displayQuestionFrom();
+      require_once 'models/QuestionManageModel.php';
+           //require_once 'controllers/QuestionFormController.php';
+      //$questionFormController = new QuestionFormController;
+     // $questionFormController->displayQuestionFrom();
       //$questionManageController->processQuestionFormSubmittion();
       break;
     default:

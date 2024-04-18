@@ -1,10 +1,15 @@
 
 <?php
-require_once 'models/QuestionManageModel.php';
+       $questionManageController = new QuestionManageController;
+      if (isset($_POST['action'])) {
+        $questionManageController->processQuestionManage();
+      } else {
+        $questionManageController->displayQuestionManageDashboard();
+      }
+
 
 class QuestionManageController {
   private $questionModel;
-
   public function __construct() {
     // Instantiate the QuestionModel in the controller's constructor
     $this->questionModel = new QuestionManageModel();
@@ -28,6 +33,14 @@ class QuestionManageController {
       // Check if the action parameter is provided in the POST data
       if (isset($_POST['action'])) {
         $action = $_POST['action'];
+        //echo $action;
+/*
+ <form action="?route=question_manage" method="POST">
+  <input type="hidden" name="action" value="new">
+  <button type="submit">Add</button>
+  <div id="questions">
+ */
+
 
         // Handle the action based on the value of the 'action' parameter
         switch ($action) {
@@ -38,30 +51,45 @@ class QuestionManageController {
 
               // Perform the deletion operation and store the result in $deleted
               $deleted = $this->deleteQuestion($questionId);
-
+             // echo "**$questionId**";
               if ($deleted) {
                 // Redirect back to the question manage page after deletion
-                header('Location: ?route=question_manage');
-                exit;
+                //header('Location: ?route=question_manage');
+                //
+               $response = [
+               'message' => "Deleted successfully $questionId",
+               'delete_flag' => 1
+              ];
               } else {
-                echo 'Failed to delete question'; // Display error message if deletion fails
+                $response = [
+               'message' => 'Failed to delete question',
+               'delete_flag' => 0
+               ];
               }
             } else {
               // Handle the case where question ID is missing
-              echo 'Question ID is missing';
+                $response = [
+               'message' => 'Question ID is missing',
+               'delete_flag' => 0
+               ];
+              //echo 'Question ID is missing';
             }
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
             break;
           
           case 'modify':
             // Check if the necessary data for modifying a question is provided
             // Implement modification logic here
-
+          
             // Redirect back to the question manage page after modification
             header('Location: ?route=question_manage');
             exit;
           break;
           case 'new':
-            header('Location: ?route=question_form');
+            echo"new?";
+           // header('Location: ?route=question_form');
      //       also views/admin/manage/question_manage.php which i dont want modify code
 
               // Check if the necessary data for modifying a question is provided

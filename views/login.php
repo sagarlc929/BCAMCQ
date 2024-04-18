@@ -20,5 +20,6 @@
     <input type="password" id="password" name="password" required/>
     <button type="submit">Log In</button>
   </form>
+<a href="?route=register">I have no account</a>
 </body>
 </html>
