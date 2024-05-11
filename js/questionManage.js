@@ -82,6 +82,34 @@ addBtn.addEventListener('click', ()=>{
 
 document.addEventListener("DOMContentLoaded", function () {
 
+  const subjectSelectOption = document.getElementById("subjectSelect");
+  subjectSelectOption.addEventListener('change',()=>{
+    const subjectSelected = encodeURIComponent(document.getElementById('subjectSelect').value);
+    console.log('hi' + subjectSelected);
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText)
+        const responseObject = JSON.parse(this.responseText);
+        console.log(responseObject.data);
+        if (responseObject.status === 1) {
+          generateTable(responseObject.data);
+        } else {
+          console.error('Error: ' + responseObject.message); // Log the error message
+        }       // console.log(responseObject);
+      }
+    };
+    // Use the POST method and set the appropriate content type
+    xhttp.open("POST", "?route=question_manage");
+    xhttp.setRequestHeader(
+      "Content-Type",
+      "application/x-www-form-urlencoded",
+    );
+    // Send the request with the questionId as data
+    let data = `action=getQuestions&subjectSelected=${subjectSelected}`;
+    xhttp.send(data);
+  });
+
   // Get all the buttons with the class 'deleteBtn'
   const deleteBtns = document.querySelectorAll(".deleteBtn");
 

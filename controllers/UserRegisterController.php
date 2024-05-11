@@ -1,16 +1,33 @@
 
-<?php
-// controllers/UserRegister.php
+<?php // UserRegisterController.php
 
 require_once 'models/UserRegisterModel.php';
-class UserRegisterController{
-  public function displayRegisterForm(){
-    include 'views/register/register_form.php';
+
+$userRegisterController = new UserRegisterController();
+
+if (isset($_POST['action'])) {
+  $userRegisterController->processSubmitForm();
+} else {
+  $userRegisterController->displayRegisterForm();
+}
+
+
+class UserRegisterController {
+
+  private $userRegisterModel;
+
+  public function __construct()
+  {
+    $this->userRegisterModel = new UserRegisterModel();
   }
 
-  public function processSubmitForm(){
+  public function displayRegisterForm() {
+    require_once 'views/register/register_form.php';
+  }
+
+  public function processSubmitForm() {
     // Check if the form is submitted
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Retrieve the submitted data
       $firstName = $_POST['first-name'];
       $lastName = $_POST['last-name'];
@@ -20,37 +37,33 @@ class UserRegisterController{
       $contactNo = $_POST['contact-no'];
 
       // Validate the form data
-      $error = $this->validateForm($firstName, $lastName, $email, $username, $password, $contactNo);
-      if (!$error) {
-        // Successful registration
-        echo <<<HTML
-        <form method="post" action="?route=login">
-          You are registered successfully. Please login to continue.
-        </form>
-        HTML;
-
-        // Redirect to the login page after a delay
-        header('Location: ?route=login');
-        exit;
-      } else {
-        // Failed registration
-        echo "Registration failed"; // You can display an error message here
-        echo "<br>Error: $error"; // Display the specific error message
-        // For simplicity, we'll redirect back to the registration form after a delay
-        header('Location: ?route=register');
-        exit;
-      }
+      $response = $this->validateForm($firstName, $lastName, $email, $username, $password, $contactNo);
+      header('Content-Type: application/json');
+      echo $response;
+      exit; // Ensure no further execution after echoing JSON response
     }
   }
-  
+
   private function validateForm($firstName, $lastName, $email, $username, $password, $contactNo) {
-    $registerModel = new UserRegisterModel();
-    if ($registerModel->userAlreadyExists($username)) {
-      return "Username already exists. Please choose a different username.";
-    } elseif ($registerModel->addUser($firstName, $lastName, $email, $username, $password, $contactNo)) {
-      return ""; // No error
+
+    if ($this->userRegisterModel->userAlreadyExists($username)) {
+      $response = [
+        'message' => '<h4>Failed</h4><hr>Username already exists. Please choose a different username.',
+        'status' => 0 // Error status code
+      ];
+      return json_encode($response);
+    } elseif ($this->userRegisterModel->addUser($firstName, $lastName, $email, $username, $password, $contactNo)) {
+      $response = [
+        'message' => '<h4>User registered successfully</h4>.<hr><p><i>Redirecting to the <a class="alert-link"href="?route=login">login page</a></i></p>',
+        'status' => 1 // Success status code
+      ];
+      return json_encode($response);
     } else {
-      return "Registration failed. Please try again later."; // Generic error message
+      $response = [
+        'message' => 'Registration failed. Please try again later.',
+        'status' => 0 // Error status code
+      ];
+      return json_encode($response);
     }
   }
 }

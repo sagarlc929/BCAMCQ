@@ -12,6 +12,14 @@
 
 <body>
   <h1>Question Manage</h1>
+
+  <select id="semesterSelect">
+    <option value="">Select Semester</option>
+  </select>
+  <select id="subjectSelect">
+   <option value="">Select Subject</option>
+  </select>
+
   <div id="message"> hi</div>
   <div class="container">
     <button type="button" id="add">Add</button>

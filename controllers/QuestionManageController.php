@@ -1,8 +1,8 @@
 
-<?php
+<?php // QuestionManageController.php
 
 require_once 'models/QuestionManageModel.php';
-require_once 'models/SemesterModel.php';
+  require_once 'models/SemesterModel.php';
 require_once 'models/SubjectModel.php';
 $questionManageController = new QuestionManageController;
 if (isset($_POST['action'])) {
@@ -119,6 +119,20 @@ class QuestionManageController
           echo json_encode($response);
           exit;
           break;
+        case 'getQuestions':
+          $subSelected = $_POST['subjectSelected'];
+          $questions = $this->getQuestions($subSelected);
+          $response = [
+              'message' => 'ok',
+              'status' => 1,
+              'data'=>$questions
+          ];
+
+          header('Content-Type: application/json');
+          echo json_encode($response);
+
+          exit;
+          break;
         default:
           // Handle invalid action
           echo 'Invalid action';
@@ -153,6 +167,9 @@ class QuestionManageController
     return $this->questionModel->modifyQuestion($questionId, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation);
   }
    */
+  }
+  private function getQuestions($subjectSelected){
+    return $this->questionModel->getQuestions($subjectSelected);
   }
 }
 ?>

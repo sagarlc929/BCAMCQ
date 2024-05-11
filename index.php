@@ -28,10 +28,7 @@ switch ($route) {
 
     case "register":
         // Include the user registration controller
-        require_once "controllers/UserRegisterController.php";
-        $userRegisterController = new UserRegisterController();
-        $userRegisterController->displayRegisterForm();
-        $userRegisterController->processSubmitForm();
+        require_once "controllers/UserRegisterController.php"; 
         break;
 
     case "user_dashboard":
