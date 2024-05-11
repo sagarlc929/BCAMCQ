@@ -2,7 +2,7 @@
 <?php // QuestionManageController.php
 
 require_once 'models/QuestionManageModel.php';
-  require_once 'models/SemesterModel.php';
+require_once 'models/SemesterModel.php';
 require_once 'models/SubjectModel.php';
 $questionManageController = new QuestionManageController;
 if (isset($_POST['action'])) {

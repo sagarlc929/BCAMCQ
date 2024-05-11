@@ -1,48 +1,54 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Qestion Manage</title>
+  <title>User Management</title>
   <link rel="stylesheet" href="css/quiz-style.css">
   <!-- Add your CSS styles or include external stylesheets here -->
-
 </head>
 
 <body>
-  <h1>Question Manage</h1>
-
-  <select id="semesterSelect">
-    <option value="">Select Semester</option>
-  </select>
-  <select id="subjectSelect">
-   <option value="">Select Subject</option>
-  </select>
-
-  <div id="message"> hi</div>
+  <h1>User Management</h1>
   <div class="container">
+    <!-- Add a table to display user data -->
+    <div id="message"> hi</div>
     <button type="button" id="add">Add</button>
     <div class="table-container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>Option A</th>
-            <th>Option B</th>
-            <th>Option C</th>
-            <th>Option D</th>
-            <th>Answer</th>
-            <th>Explanation</th>
-            <th>Manage</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Contact Number</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        // Assuming $users is an array of user data retrieved from your database
+        foreach ($users as $user) {
+          echo "<tr>";
+          echo "<td>" . $user['u_id'] . "</td>";
+          echo "<td>" . $user['fname'] . "</td>";
+          echo "<td>" . $user['lname'] . "</td>";
+          echo "<td>" . $user['uname'] . "</td>";
+          echo "<td>" . $user['email'] . "</td>";
+          echo "<td>" . $user['contact_no'] . "</td>";
+          echo "<td>" . "<button type='button' class='deleteBtn' id='delete'>Delete</button><button type='button' class='modifyBtn' id='modify'>Modify</button>" . "</td>";
+          echo "</tr>";
+        }
+        ?>
+      </tbody>
+    </table>
     </div>
   </div>
-  <div id="popupOverlay" class="overlay-container">
+ <div id="popupOverlay" class="overlay-container">
     <div class="popup-box">
       <h2 style="color: gray;">Add New Question</h2>
 
@@ -81,12 +87,10 @@
       Close 
     </button>
   </div>
-    <script>
-    var allQuestion = <?php echo json_encode($allQuestion); ?>;
-    var semesterSubjects = <?php echo json_encode($semSub); ?>;
-  </script>
-  <script src="js/questionManage.js">
-  </script>
+
+
+  <script src="js/userManage.js"></script>
 </body>
 
 </html>
+

@@ -4,7 +4,7 @@
 
 class AdminDashboardController {
   public function displayAdminDashboard() {
-    include 'views/admin/admin_dashboard.php';
+    require_once 'views/admin/admin_dashboard.php';
   }
 }
 ?>

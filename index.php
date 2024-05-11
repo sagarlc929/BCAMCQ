@@ -59,8 +59,6 @@ switch ($route) {
         break;
     case "user_manage":
         require_once "controllers/UserManageController.php";
-        //$userManageController = new UserManageController();
-        $userManageController->displayUserManageDashboard();
         break;
     case "question_manage":
         require_once "controllers/QuestionManageController.php";
