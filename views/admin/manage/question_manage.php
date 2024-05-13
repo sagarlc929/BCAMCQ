@@ -20,7 +20,7 @@
    <option value="">Select Subject</option>
   </select>
 
-  <div id="message"> hi</div>
+  <div id="message"></div>
   <div class="container">
     <button type="button" id="add">Add</button>
     <div class="table-container">
@@ -67,14 +67,6 @@
       <label for="explanation">Explanation:</label>
       <textarea id="explanation" name="explanation" rows="4" cols="50" required></textarea><br>
 
-
-      <select id="semesterSelect">
-        <option value="">Select Semester</option>
-      </select>
-
-      <select id="subjectSelect">
-        <option value="">Select Subject</option>
-      </select>
 
       <button  id="add-question">Add Question</button>
      <button class="btn-close-popup" onclick="togglePopup()"> 

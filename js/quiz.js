@@ -94,13 +94,13 @@ function explainAnswer() {
     wrongQnNumberArr.push(answer.wrongQuNumber);
     wrongQnOptionArr.push(answer.wrongQnOption);
   });
-
   for (let i = 0; i < questions.length; i++) {
     const question = questions[i];
     const quizDiv = document.createElement("div");
     quizDiv.id = "answer-" + i;
-
+    let wrongInArray;
     if (wrongQnNumberArr.includes(i)) {
+      wrongInArray = wrongQnNumberArr.indexOf(i);
       quizDiv.classList.add("wrongAnsweredQn");
       quizDiv.classList.add("card");
     } else {
@@ -118,7 +118,7 @@ function explainAnswer() {
       //if (option === wrongQnOptionArr[i]) {
       var a = i;
       //console.log(`***${option}***${wrongQnOptionArr[i]}***${i}`)
-      if (option === wrongQnOptionArr[i]) {
+      if ( wrongQnOptionArr[wrongInArray] == option) {
         eachOption.classList.add("wrong-option");
       } else if (option == question.answer) {
         eachOption.classList.add("correct-option");
@@ -138,13 +138,43 @@ function explainAnswer() {
     correctAnswer.appendChild(quizDiv);
   }
 
+  const correctAnswerDiv = document.getElementById('correct-answer');
+  const goDashBtn = document.createElement('button');
+  goDashBtn.textContent = 'Go to Dashboard'; // Set the button text
+  goDashBtn.addEventListener('click', function() {
+    alert('Button clicked!'); // Replace this with your desired functionality
+  });
+  document.body.appendChild(correctAnswerDiv);
+
 }
 
+  function goToDashboard() {
+  window.location.href = '?route=user_dashboard'; 
+  }
 
 function showResultDiv() {
   const resultMarksDiv = document.getElementById("result-marks");
   resultMarksDiv.innerHTML = `marks:${score}/${questions.length}`;
 }
 
+if(questions.length === 0){
+  const nextBtn = document.getElementById("next-button");
+  const quizContainer =  document.getElementById("quiz-container");
+  nextBtn.style.display = "none";
+  quizContainer.innerHTML = '<p style="color:tomato;text-align:center;"><b>No Questions Now</b></br>Question will added soon...</p>';
+  const mainSection = document.getElementById("main-section");
+  const goToDasBtn = document.createElement('button');
+  goToDasBtn.textContent = "Go to Dashboard"; // Set button text (optional)
+  goToDasBtn.style = "margin: 0 auto;display:block;background-color:MediumSeaGreen;";
+  mainSection.appendChild(goToDasBtn);
+  goToDasBtn.onclick = function() {
+    goToDasFun();
+  };
+}else{
+  showQuestion();
+}
 
-showQuestion();
+function goToDasFun(){
+
+  window.location.href = "?route=user_dashboard";
+}

@@ -1,0 +1,12 @@
+
+# Prevent direct access to PHP files in specific directories
+<FilesMatch "\.(php)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Allow access to index.php
+<Files "index.php">
+    Order allow,deny
+    Allow from all
+</Files>

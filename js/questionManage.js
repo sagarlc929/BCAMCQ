@@ -56,7 +56,20 @@ function populateSubjectDropdown() {
       subjectSelect.appendChild(option);
     });
   }
+
 }
+// todo:  implement this
+const subjectSelect = document.getElementById('subjectSelect');
+const qnAddBtn = document.getElementById('add');
+subjectSelect.addEventListener('click',()=>{
+  console.log(subjectSelect.value);
+  if(subjectSelect.value === undefined){
+    qnAddBtn.style.display = "none";
+    console.log("hi->true");
+  } else {
+    qnAddBtn.style.display = "block";
+  }
+});
 
 // Event listener for semester dropdown to populate subject dropdown
 document.getElementById('semesterSelect').addEventListener('change', populateSubjectDropdown);

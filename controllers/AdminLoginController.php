@@ -25,7 +25,12 @@ class AdminLoginController{
       if($this->validateCredentials($username, $password)){
         // Successfull login
         // Redirect to the dashboard or another page
-        $_SESSION['usrname']=$username;
+        session_start();
+
+        // After successful login validation
+        $_SESSION['admin_authenticated'] = true;
+        $_SESSION['username'] = $username; 
+
         echo"login successfull";
         header('Location: ?route=admin_dashboard');
         exit;

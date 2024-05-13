@@ -3,10 +3,8 @@ const form = document.getElementById('registrationForm');
 const submitBtn = document.getElementById('submit');
 const messageDiv = document.getElementById('message');
 const xhttp = new XMLHttpRequest(); // Move this line outside the event listener
-
 submitBtn.addEventListener('click', (event) => {
   event.preventDefault(); // Prevent form submission
-
   if (validateForm()) {
     const formData = new FormData(form);
 
@@ -76,6 +74,14 @@ function validateForm() {
 }
 
 function showMessage(message) {
+
+  messageDiv.className = 'alert'; // Reset class to 'alert'
+
+        messageDiv.classList.add("show"); // Remove "show" class to trigger fade-out
+  messageDiv.classList.add("alert-danger");
   messageDiv.innerText = message;
+  setTimeout(() => {
+    messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+  }, 5000); 
 }
 

@@ -18,7 +18,12 @@ class LoginController{
       if($this->validateCredentials($username, $password)){
         // Successfull login
         // Redirect to the dashboard or another page
-        $_SESSION['usrname']=$username;
+        session_start();
+
+        // After successful login validation
+        $_SESSION['user_authenticated'] = true;
+        $_SESSION['username'] = $username; 
+
         echo"login successfull";
         header('Location: ?route=user_dashboard');
         exit;

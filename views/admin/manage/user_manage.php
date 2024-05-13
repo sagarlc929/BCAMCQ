@@ -48,46 +48,28 @@
     </table>
     </div>
   </div>
- <div id="popupOverlay" class="overlay-container">
-    <div class="popup-box">
-      <h2 style="color: gray;">Add New Question</h2>
 
-      <label for="description">Description:</label>
-      <input type="text" id="description" name="description" required><br>
+<div id="popupOverlay" class="overlay-container">
+  <div class="popup-box">
+    <h2 style="color: gray;">Add New User</h2>
 
-      <label for="optionA">Option A:</label>
-      <input type="text" id="optionA" name="optionA" required><br>
+    <fieldset>
+      <label for="first-name">First Name: <input type="text" id="first-name" name="first-name" required></label><br>
+      <label for="last-name">Last Name: <input type="text" id="last-name" name="last-name" required></label><br>
+      <label for="email">Email: <input type="email" id="email" name="email" required></label><br>
+      <label for="contact-no">Contact Number: <input type="tel" id="contact-no" name="contact-no" required></label><br>
+    </fieldset>
 
-      <label for="optionB">Option B:</label>
-      <input type="text" id="optionB" name="optionB" required><br>
+    <fieldset>
+      <label for="user-name">User Name: <input type="text" id="user-name" name="user-name" required></label><br>
+      <label for="new-password">New Password: <input type="password" id="new-password" name="new-password" required></label><br>
+      <label for="confirm-password">Confirm New Password: <input type="password" id="confirm-password" name="confirm-password" required></label><br>
+    </fieldset>
 
-      <label for="optionC">Option C:</label>
-      <input type="text" id="optionC" name="optionC" required><br>
-
-      <label for="optionD">Option D:</label>
-      <input type="text" id="optionD" name="optionD" required><br>
-
-      <label for="answer">Answer:</label>
-      <input type="text" id="answer" name="answer" required><br>
-
-      <label for="explanation">Explanation:</label>
-      <textarea id="explanation" name="explanation" rows="4" cols="50" required></textarea><br>
-
-
-      <select id="semesterSelect">
-        <option value="">Select Semester</option>
-      </select>
-
-      <select id="subjectSelect">
-        <option value="">Select Subject</option>
-      </select>
-
-      <button  id="add-question">Add Question</button>
-     <button class="btn-close-popup" onclick="togglePopup()"> 
-      Close 
-    </button>
+    <button id="add-user" onclick="addUser()">Add User</button>
+    <button class="btn-close-popup" onclick="togglePopup()">Close</button>
   </div>
-
+</div>
 
   <script src="js/userManage.js"></script>
 </body>

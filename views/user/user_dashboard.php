@@ -1,3 +1,4 @@
+
 <!-- views/user/dashboard.php -->
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,10 @@
     <link rel="stylesheet" href="css/user-dashboard-style.css">
   </head>
   <body>
+  <header>
+  <a href="?route=home">BCAMCQ</a>
     <h1>Welcom to Your Dashboard</h1>
+  </header>
     <!-- Include dashboard content -->
     <!-- Fetch and display semester list from the database -->
     <div id="semester"></div>
