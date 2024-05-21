@@ -1,4 +1,6 @@
-
+/* #message{ */
+/*   display:none; */
+/* } */
 .alert {
   /*font-size: 1.25rem;*/
   padding: 15px;
@@ -10,6 +12,7 @@
   left: 50%;
   transform: translate(-50%, -50%);  /* Center the element */
   display: none;
+z-index: 999;
   opacity: 0; /* Initial opacity set to 0 for fade effect */
   transition: opacity 1s ease-in-out; /* Apply transition to opacity property */
 }

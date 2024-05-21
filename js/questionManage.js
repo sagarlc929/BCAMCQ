@@ -1,30 +1,35 @@
 //var allQuestion = <?php echo json_encode($allQuestion); ?>;
 generateTable(allQuestion); //questions.innerHTML = generateTable(allQuestion);
+
 function generateTable(data) {
-  const tableBody = document.getElementById("tableBody");
-  tableBody.innerHTML = "";
+  if(data.status == false){
+    //console.log(data.message);
+  } else {
 
-  data.forEach((item) => {
-    const row = document.createElement("tr");
-    row.id = item.question_id;
-    row.innerHTML = `
-      <td>${item.question_id}</td>
-      <td>${item.description}</td>
-      <td>${item.option_A}</td>
-      <td>${item.option_B}</td>
-      <td>${item.option_C}</td>
-      <td>${item.option_D}</td>
-      <td>${item.answer}</td>
-      <td>${item.explanation}</td>
-      <td class="table-controls">
-        <button class="deleteBtn" type="button" data-question-id="${item.question_id}">DELETE</button>
-        <button class="modifyBtn" type="button">Modify</button>
-      </td>
-      `;
-    tableBody.appendChild(row);
-  });
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+
+    data.forEach((item) => {
+      const row = document.createElement("tr");
+      row.id = item.question_id;
+      row.innerHTML = `
+<td>${item.question_id}</td>
+<td>${item.description}</td>
+<td>${item.option_A}</td>
+<td>${item.option_B}</td>
+<td>${item.option_C}</td>
+<td>${item.option_D}</td>
+<td>${item.answer}</td>
+<td>${item.explanation}</td>
+<td class="table-controls">
+<button class="deleteBtn" type="button" data-question-id="${item.question_id}">DELETE</button>
+<button class="modifyBtn" type="button">Modify</button>
+</td>
+`;
+      tableBody.appendChild(row);
+    });
+  }
 }
-
 
 // Function to populate semester dropdown
 function populateSemesterDropdown() {
@@ -40,8 +45,8 @@ function populateSemesterDropdown() {
 
 // Function to populate subject dropdown based on selected semester
 function populateSubjectDropdown() {
-  const semesterSelect = document.getElementById('semesterSelect');
   const subjectSelect = document.getElementById('subjectSelect');
+  const semesterSelect = document.getElementById('semesterSelect');
   subjectSelect.innerHTML = '<option value="">Select Subject</option>'; // Reset subject dropdown
 
   const selectedSemester = semesterSelect.value;
@@ -58,24 +63,24 @@ function populateSubjectDropdown() {
   }
 
 }
-// todo:  implement this
-const subjectSelect = document.getElementById('subjectSelect');
-const qnAddBtn = document.getElementById('add');
-subjectSelect.addEventListener('click',()=>{
-  console.log(subjectSelect.value);
-  if(subjectSelect.value === undefined){
-    qnAddBtn.style.display = "none";
-    console.log("hi->true");
-  } else {
-    qnAddBtn.style.display = "block";
-  }
-});
 
 // Event listener for semester dropdown to populate subject dropdown
 document.getElementById('semesterSelect').addEventListener('change', populateSubjectDropdown);
 // Populate semester dropdown on page load
 populateSemesterDropdown();
 
+
+const subjectSelect = document.getElementById('subjectSelect');
+const qnAddBtn = document.getElementById('add');
+
+subjectSelect.addEventListener('change', () => {
+  console.log(subjectSelect.value);
+  if (subjectSelect.value === "") {
+    qnAddBtn.style.display = "none";
+  } else {
+    qnAddBtn.style.display = "block";
+  }
+});
 
 //form popup
 function togglePopup() { 
@@ -90,7 +95,15 @@ const overlay = document.getElementById('popupOverlay');
 
 addBtn.addEventListener('click', ()=>{
   overlay.classList.toggle('show'); 
+  const selectedSemSpan = document.getElementById("selected-sem-span");
+  const selectedSubSpan = document.getElementById("selected-sub-span");
+  const semesterSelect = document.getElementById('semesterSelect');
+  const subjectSelect = document.getElementById('subjectSelect');
+
+  selectedSemSpan.innerText = semesterSelect.value;
+  selectedSubSpan.innerText = subjectSelect.value;
 });
+
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -98,14 +111,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const subjectSelectOption = document.getElementById("subjectSelect");
   subjectSelectOption.addEventListener('change',()=>{
     const subjectSelected = encodeURIComponent(document.getElementById('subjectSelect').value);
-    console.log('hi' + subjectSelected);
     const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText)
         const responseObject = JSON.parse(this.responseText);
         console.log(responseObject.data);
-        if (responseObject.status === 1) {
+        if(responseObject.data.length === 0){
+          const tableBody = document.getElementById("tableBody");
+          const row = document.createElement("tr");
+          tableBody.innerHTML = "";
+          row.innerHTML = `<td colspan=9><span class="no-qn-mes">no questions</span></td>`;
+          tableBody.appendChild(row);
+        }
+        else if (responseObject.status === 1) {
           generateTable(responseObject.data);
         } else {
           console.error('Error: ' + responseObject.message); // Log the error message
@@ -181,13 +200,44 @@ document.addEventListener("DOMContentLoaded", function () {
     //const addSubj = encodeURIComponent(document.getElementById('subjectSelect').value);
 
     // Do something with the questionId, e.g., send an AJAX request to delete the question
+
+    const messageDiv = document.getElementById('message');
     const xhttp = new XMLHttpRequest();
+
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText);
         try {
           const responseObject = JSON.parse(this.responseText);
-          // Use responseObject here
+          messageDiv.innerText = responseObject.message; // Set inner HTML
+          messageDiv.className = 'alert'; // Reset class to 'alert'
+          messageDiv.classList.add("show"); 
+
+          if (responseObject.status == true) {
+            messageDiv.classList.add("alert-success");
+
+            document.getElementById('description').value = "";
+            document.getElementById('optionA').value = "";
+            document.getElementById('optionB').value = "";
+            document.getElementById('optionC').value = "";
+            document.getElementById('optionD').value = "";
+            document.getElementById('answer').value = "";
+            document.getElementById('explanation').value = "";
+            const newQnId = 12; 
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `<td>${newQnId}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td><td class="table-controls"><button class="deleteBtn" type="button" data-question-id="${newQnId}">DELETE</button><button class="modifyBtn" type="button">Modify</button></td>`;
+            tableBody.appendChild(newRow);
+            setTimeout(() => {
+              messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+            }, 3000);
+
+          } else {
+            messageDiv.classList.add("alert-danger");
+            setTimeout(() => {
+             messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+            }, 5000); // 3 seconds
+          }
+
         } catch (error) {
           console.error("Error parsing JSON:", error);
         }

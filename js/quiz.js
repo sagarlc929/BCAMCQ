@@ -31,6 +31,7 @@ function showQuestion() {
     const div = document.createElement("div");
     div.id = "option-" + String.fromCharCode(65 + index);
     // Append radio button and label div in continer
+    div.classList.add("option");
     optionsContainer.appendChild(div);
     div.appendChild(radioButton);
     div.appendChild(label);
@@ -108,6 +109,7 @@ function explainAnswer() {
       quizDiv.classList.add("card");
     }
     const descriptionDiv = document.createElement("div");
+    descriptionDiv.id = 'question-container';
     descriptionDiv.innerHTML = question["description"];
 
     const optionDiv = document.createElement("div");

@@ -3,11 +3,21 @@ box-sizing: border-box;
   margin:0;
   padding:0;
 }
+.no-qn-mes{
+  display: block;
+  text-align: center;
+  color: tomato;
+}
 #add{
   display:none;
 }
-#message{
-  display:none;
+div #question-container{
+  font-size: 2rem;
+}
+label{
+  font-size: 1.25rem;
+  font-weight: bold;
+
 }
 section{
   margin:1em;
@@ -175,6 +185,7 @@ background-color:#ecffe6;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 
 }
+
 .answer-explanation{
   background-color: rgba(255, 255, 255, 0.9); /* Transparent white color */
   border-radius: 10px;
@@ -192,6 +203,8 @@ button{
 }
 input[type='radio']{
   cursor:pointer;
+  scale: 2;
+  margin: 0 1rem;
 }
 h1 {
   background-color: #333;
@@ -199,8 +212,24 @@ h1 {
   padding: 10px;
   text-align: center;
 }
+.select-option{
+background-color: #333;
+  color: white;
+  border: 0;
+  padding: 10px;
+  font-size: 1.25em;
+  margin: 1.25rem;
+}
+
+.select-options-div{
+
+padding: 1.25em;
+  display: flex;
+  justify-content: center;
+
+}
 .container {
-        display: grid;
+       /* display: grid; */
         place-items: center;
         min-height: 100vh;
     }
@@ -276,17 +305,7 @@ h1 {
             transition: opacity 0.3s ease; 
         } 
   
-        .popup-box { 
-            background: #fff; 
-            padding: 24px; 
-            border-radius: 12px; 
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.4); 
-            width: 320px; 
-            text-align: center; 
-            opacity: 0; 
-            transform: scale(0.8); 
-            animation: fadeInUp 0.5s ease-out forwards; 
-        } 
+    
   
         .form-container { 
             display: flex; 
@@ -353,3 +372,115 @@ h1 {
             display: flex; 
             opacity: 1; 
         } 
+
+
+
+/* overlay form style */  
+
+/* Overlay container to cover the entire screen */
+/*
+.overlay-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  visibility: hidden;
+}*/
+/* Show overlay when active */
+.overlay-container.active {
+  visibility: visible;
+}
+.selected-sem-sub  {
+font-size: 1.25em;
+  font-weight: 900;
+  color: #555;
+  margin: 2em 0;
+}
+.
+#selected-sub-span #selected-sem-span {
+  color: #333;
+}
+/* Popup box styling */
+.popup-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  width: 600px;
+  max-width: 90%;
+  text-align: left;
+}
+
+/* Header styling */
+.popup-box h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Label styling */
+.popup-box label {
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Input and textarea styling */
+.popup-box input[type="text"],
+.popup-box textarea {
+  width: calc(100% - 20px);
+  padding: 8px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Button styling */
+.popup-box button {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.popup-box button:hover {
+  background-color: #218838;
+}
+
+/* Close button styling */
+.popup-box .btn-close-popup {
+  background-color: #dc3545;
+  margin-left: 10px;
+}
+
+/* Close button hover effect */
+.popup-box .btn-close-popup:hover {
+  background-color: #c82333;
+}
+
+/* quiz question style */ 
+#quiz-container{
+background-color:#e6fdff;
+ border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.option {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 11px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}

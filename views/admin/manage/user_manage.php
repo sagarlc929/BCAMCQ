@@ -7,12 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Management</title>
   <link rel="stylesheet" href="css/quiz-style.css">
+  <link rel="stylesheet" href="css/alert.css">
+  <link rel="stylesheet" href="css/respon-nav.css">
   <!-- Add your CSS styles or include external stylesheets here -->
 </head>
 
 <body>
+      <div class = "slidebar">
+      <a class="" href="?route=home">Home</a>
+      <a class="active"href="?route=user_manage">Manage Question</a>
+      <a class=""href="?route=question_manage">Manage Users</a>
+      <a class="split" href="#help">Help</a>
+    </div>
+  <div class="container content">
   <h1>User Management</h1>
-  <div class="container">
     <!-- Add a table to display user data -->
     <div id="message"> hi</div>
     <button type="button" id="add">Add</button>
@@ -40,7 +48,7 @@
           echo "<td>" . $user['uname'] . "</td>";
           echo "<td>" . $user['email'] . "</td>";
           echo "<td>" . $user['contact_no'] . "</td>";
-          echo "<td>" . "<button type='button' class='deleteBtn' id='delete'>Delete</button><button type='button' class='modifyBtn' id='modify'>Modify</button>" . "</td>";
+          echo "<td>" . "<div class='table-controls'><button type='button' class='deleteBtn' id='delete'>Delete</button><button type='button' class='modifyBtn' id='modify'>Modify</button></div>" . "</td>";
           echo "</tr>";
         }
         ?>
