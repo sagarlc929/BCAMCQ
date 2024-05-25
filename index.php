@@ -13,97 +13,112 @@ $route = isset($_GET["route"]) ? $_GET["route"] : "home";
 
 // Example: Routing logic to determine which controller and method to invoke
 switch ($route) {
-    case "home":
-        // Display the home page
-        include "views/home.php";
-        break;
+case "home":
+  // Display the home page
+  include "views/home.php";
+  break;
 
-    case "login":
-        // include the login controller
-        require_once "controllers/LoginController.php";
-        $loginController = new LoginController();
-        $loginController->displayLoginForm();
-        $loginController->processLogin();
-        break;
+case "login":
+  // include the login controller
+  require_once "controllers/LoginController.php";
+  $loginController = new LoginController();
+  $loginController->displayLoginForm();
+  $loginController->processLogin();
+  break;
 
-    case "register":
-        // Include the user registration controller
-        require_once "controllers/UserRegisterController.php"; 
-        break;
+case "register":
+  // Include the user registration controller
+  require_once "controllers/UserRegisterController.php"; 
+  break;
 
-    case "user_dashboard":
+case "user_dashboard":
 
-      session_start();
-      if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
-        header('Location: login.php');
-      exit;
-      }
+  session_start();
+  if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
+    header('Location: login.php');
+    exit;
+  }
 
-        // Include the UserDashboardController
-        require_once "controllers/UserDashboardController.php";
-        $userDashboardController = new UserDashboardController();
-        $userDashboardController->displayUserDashboard();
-        break;
-    case "admin_dashboard":
-      session_start();
-      if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
-        header('Location:?route=admin');
-      exit;
-      }
- // Include the UserDashboardController
-        require_once "controllers/AdminDashboardController.php";
-        $adminDashboardController = new AdminDashboardController();
-        $adminDashboardController->displayAdminDashboard();
-        break;
+  // Include the UserDashboardController
+  require_once "controllers/UserDashboardController.php";
+  $userDashboardController = new UserDashboardController();
+  $userDashboardController->displayUserDashboard();
+  break;
 
-    case "quiz":
+case "report":
 
-      session_start();
-      if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
-        header('Location: login.php');
-      exit;
-      }
+  session_start();
+  if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
+    header('Location: login.php');
+    exit;
+  }
 
-        // Include the QuizController
-        require_once "controllers/QuizController.php";
-        $quizController = new QuizController();
-        $quizController->displayQuizPage();
-        break;
+  // Include the UserDashboardController
+  require_once "controllers/UserReportController.php";
+  /* $userDashboardController = new UserDashboardController(); */
+  /* $userDashboardController->displayUserDashboard(); */
+  break;
 
-    case "admin":
+case "admin_dashboard":
+  session_start();
+  if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    header('Location:?route=admin');
+    exit;
+  }
+  // Include the UserDashboardController
+  require_once "controllers/AdminDashboardController.php";
+  $adminDashboardController = new AdminDashboardController();
+  $adminDashboardController->displayAdminDashboard();
+  break;
 
+case "quiz":
 
-        require_once "controllers/AdminLoginController.php";
-        $adminLoginController = new AdminLoginController();
-        $adminLoginController->displayAdminLoginForm();
-        $adminLoginController->processAdminLogin();
-        break;
-    case "user_manage":
+  session_start();
+  if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
+    header('Location: login.php');
+    exit;
+  }
 
-      session_start();
-      if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
-        header('Location:?route=admin');
-      exit;
-      }
-        require_once "controllers/UserManageController.php";
-        break;
-    case "question_manage":
+  // Include the QuizController
+  require_once "controllers/QuizController.php";
+  $quizController = new QuizController();
+  $quizController->displayQuizPage();
+  break;
 
-      session_start();
-      if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
-        header('Location:?route=admin');
-      exit;
-      }
-        require_once "controllers/QuestionManageController.php";
-        break;
-    case "logout":
-        require_once "controllers/LogoutController.php";
-        break;
-    default:
-        // Handle 404 - Page Not Found
-        http_response_code(404);
-        echo "404 - Page Not Found";
-        break;
+case "admin":
+
+  require_once "controllers/AdminLoginController.php";
+  $adminLoginController = new AdminLoginController();
+  $adminLoginController->displayAdminLoginForm();
+  $adminLoginController->processAdminLogin();
+  break;
+
+case "user_manage":
+
+  session_start();
+  if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    header('Location:?route=admin');
+    exit;
+  }
+  require_once "controllers/UserManageController.php";
+  break;
+case "question_manage":
+
+  session_start();
+  if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
+    header('Location:?route=admin');
+    exit;
+  }
+  require_once "controllers/QuestionManageController.php";
+  break;
+case "logout":
+  require_once "controllers/LogoutController.php";
+  break;
+default:
+  // Handle 404 - Page Not Found
+  http_response_code(404);
+  echo "404 - Page Not Found";
+  break;
 }
 
 ?>

@@ -81,7 +81,7 @@ function clearOptionsContainer() {
 function showResult() {
 
   quizContainer.style.display = "none";
-  resultContainer.style.display = "block";
+  resultContainer.style.display = "flex";
   showResultDiv();
   explainAnswer();
 }
@@ -122,10 +122,13 @@ function explainAnswer() {
       //console.log(`***${option}***${wrongQnOptionArr[i]}***${i}`)
       if ( wrongQnOptionArr[wrongInArray] == option) {
         eachOption.classList.add("wrong-option");
+        eachOption.classList.add("text-2xl");
       } else if (option == question.answer) {
         eachOption.classList.add("correct-option");
+        eachOption.classList.add("text-2xl");
       } else {
         eachOption.classList.add("none-option");
+        eachOption.classList.add("text-2xl");
       }
       eachOption.textContent = option;
       optionDiv.appendChild(eachOption);
@@ -133,6 +136,7 @@ function explainAnswer() {
 
     const explainDiv = document.createElement("div");
     explainDiv.classList.add("answer-explanation");
+    explainDiv.classList.add("text-3xl");
     explainDiv.innerHTML = question["explanation"];
     quizDiv.appendChild(descriptionDiv);
     quizDiv.appendChild(optionDiv);

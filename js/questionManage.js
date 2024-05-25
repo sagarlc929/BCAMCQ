@@ -11,7 +11,7 @@ function generateTable(data) {
 
     data.forEach((item) => {
       const row = document.createElement("tr");
-      row.id = item.question_id;
+      row.id = "row-" + item.question_id;
       row.innerHTML = `
 <td>${item.question_id}</td>
 <td>${item.description}</td>
@@ -149,36 +149,50 @@ document.addEventListener("DOMContentLoaded", function () {
   deleteBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       const questionId = btn.dataset.questionId;
-      if (
-        confirm(
-          `Are you sure you want to delete this question?i.e:${questionId}`,
-        )
-      )
-      {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            const responseObject = JSON.parse(this.responseText);
-            document.getElementById("message").innerText = responseObject.message;
-            const rowToDelete = document.getElementById(questionId);
-            if (responseObject.delete_flag == 1) {
-              if (rowToDelete) {
-                rowToDelete.remove();
+      customConfirm(`Are you sure you want to delete this question?i.e:${questionId}`, function(result) {
+        if (result) {
+          const xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+              console.log(this.responseText);
+              const responseObject = JSON.parse(this.responseText);
+              document.getElementById("message").innerText = responseObject.message;
+              const rowToDelete = document.getElementById("row-"+questionId);
+
+              const messageDiv = document.getElementById('message');
+              messageDiv.innerText = responseObject.message; // Set inner HTML
+              messageDiv.className = 'alert'; // Reset class to 'alert'
+              messageDiv.classList.add("show"); 
+
+              if (responseObject.status == 1) {
+                messageDiv.classList.add("alert-success");
+                if (rowToDelete) {
+                  rowToDelete.remove();
+                  setTimeout(() => {
+                    messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+                  }, 3000);
+
+                } 
+              }else {
+                messageDiv.classList.add("alert-danger");
+                setTimeout(() => {
+                  messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+                }, 5000); // 3 seconds
               }
+
             }
-          }
-        };
-        // Use the POST method and set the appropriate content type
-        xhttp.open("POST", "?route=question_manage");
-        xhttp.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded",
-        );
-        // Send the request with the questionId as data
-        let data = `action=delete&question_id=${questionId}`;
-        xhttp.send(data);
-      }
+          };
+          // Use the POST method and set the appropriate content type
+          xhttp.open("POST", "?route=question_manage");
+          xhttp.setRequestHeader(
+            "Content-Type",
+            "application/x-www-form-urlencoded",
+          );
+          // Send the request with the questionId as data
+          let data = `action=delete&question_id=${questionId}`;
+          xhttp.send(data);
+        }
+      });
     });
   });
 
@@ -188,15 +202,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Loop through each button and add a click event listener
   addQuestion.addEventListener('click', () => {
-    const addDesc = encodeURIComponent(document.getElementById('description').value);
-    const addOptA = encodeURIComponent(document.getElementById('optionA').value);
-    const addOptB = encodeURIComponent(document.getElementById('optionB').value);
-    const addOptC = encodeURIComponent(document.getElementById('optionC').value);
-    const addOptD = encodeURIComponent(document.getElementById('optionD').value);
-    const addAnsw = encodeURIComponent(document.getElementById('answer').value);
-    const addExpl = encodeURIComponent(document.getElementById('explanation').value);
-    const addSeme = encodeURIComponent(document.getElementById('semesterSelect').value);
-    const addSubj = encodeURIComponent(document.getElementById('subjectSelect').value);
+
+    // The first line remains the same
+    const addDesc = document.getElementById('description').value;
+    const addOptA = document.getElementById('optionA').value;
+    const addOptB = document.getElementById('optionB').value;
+    const addOptC = document.getElementById('optionC').value;
+    const addOptD = document.getElementById('optionD').value;
+    var addAnsw;
+    const addExpl = document.getElementById('explanation').value;
+    const addSeme = document.getElementById('semesterSelect').value;
+    const addSubj = document.getElementById('subjectSelect').value;
+    // Get all radio buttons with the name "opt-rad"
+    var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
+
+    // Loop through each radio button
+    radioButtons.forEach(function(radioButton) {
+      // Check if the radio button is checked
+      if (radioButton.checked) {
+        // Get the ID of the checked radio button
+        var selectedId = radioButton.id;
+        var lastChar = selectedId.charAt(selectedId.length - 1);
+        addAnsw = document.getElementById("option"+lastChar).value;
+      }
+    });
+
     //const addSubj = encodeURIComponent(document.getElementById('subjectSelect').value);
 
     // Do something with the questionId, e.g., send an AJAX request to delete the question
@@ -207,40 +237,40 @@ document.addEventListener("DOMContentLoaded", function () {
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         console.log(this.responseText);
-        try {
-          const responseObject = JSON.parse(this.responseText);
-          messageDiv.innerText = responseObject.message; // Set inner HTML
-          messageDiv.className = 'alert'; // Reset class to 'alert'
-          messageDiv.classList.add("show"); 
+        //try {
+        console.log(this.responseText);
+        const responseObject = JSON.parse(this.responseText);
+        messageDiv.innerText = responseObject.message; // Set inner HTML
+        messageDiv.className = 'alert'; // Reset class to 'alert'
+        messageDiv.classList.add("show"); 
 
-          if (responseObject.status == true) {
-            messageDiv.classList.add("alert-success");
+        if (responseObject.status == true) {
+          messageDiv.classList.add("alert-success");
 
-            document.getElementById('description').value = "";
-            document.getElementById('optionA').value = "";
-            document.getElementById('optionB').value = "";
-            document.getElementById('optionC').value = "";
-            document.getElementById('optionD').value = "";
-            document.getElementById('answer').value = "";
-            document.getElementById('explanation').value = "";
-            const newQnId = 12; 
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `<td>${newQnId}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td><td class="table-controls"><button class="deleteBtn" type="button" data-question-id="${newQnId}">DELETE</button><button class="modifyBtn" type="button">Modify</button></td>`;
-            tableBody.appendChild(newRow);
-            setTimeout(() => {
-              messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-            }, 3000);
+          document.getElementById('description').value = "";
+          document.getElementById('optionA').value = "";
+          document.getElementById('optionB').value = "";
+          document.getElementById('optionC').value = "";
+          document.getElementById('optionD').value = "";
+          document.getElementById('explanation').value = "";
 
-          } else {
-            messageDiv.classList.add("alert-danger");
-            setTimeout(() => {
-             messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-            }, 5000); // 3 seconds
-          }
+          const newRow = document.createElement("tr");
+          newRow.innerHTML = `<td>${responseObject.id}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td><td class="table-controls"><button class="deleteBtn" type="button" data-question-id="${responseObject.id}">DELETE</button><button class="modifyBtn" type="button">Modify</button></td>`;
+          tableBody.appendChild(newRow);
+          setTimeout(() => {
+            messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+          }, 3000);
 
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
+        } else {
+          messageDiv.classList.add("alert-danger");
+          setTimeout(() => {
+            messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+          }, 5000); // 3 seconds
         }
+
+        //} catch (error) {
+        // console.error("Error parsing JSON:", error);
+        //}
       }
     };
 
@@ -249,9 +279,84 @@ document.addEventListener("DOMContentLoaded", function () {
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     // Send the request with the questionId as data
-    let data = `action=addNewQuestion&description=${addDesc}&optionA=${addOptA}&optionB=${addOptB}&optionC=${addOptC}&optionD=${addOptD}&answer=${addAnsw}&explanation=${addExpl}&semesterSelect=${addSeme}&subjectSelect=${addSubj}`;
+    let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
     xhttp.send(data);
   });
 });
 
- 
+function showAlert(message) {
+  var alertBox = document.getElementById('customAlert');
+  var alertContent = document.getElementById('customAlertContent');
+  var closeButton = document.getElementById('customAlertButton');
+
+  // Set the message
+  alertContent.innerHTML = message;
+
+  // Show the alert
+  alertBox.style.display = 'block';
+
+  // Close the alert when the button is clicked
+  closeButton.onclick = function() {
+    alertBox.style.display = 'none';
+  };
+}
+
+// custom confirm function defination
+
+function customConfirm(message, callback) {
+  // Create overlay
+  const overlay = document.createElement('div');
+  overlay.className = 'custom-confirm-overlay';
+
+  // Create confirm box
+  const confirmBox = document.createElement('div');
+  confirmBox.className = 'custom-confirm-box';
+
+  // Create confirm message
+  const confirmMessage = document.createElement('div');
+  confirmMessage.className = 'custom-confirm-message';
+  confirmMessage.textContent = message;
+
+  // Create buttons container
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.className = 'custom-confirm-buttons';
+
+  // Create OK button
+  const okButton = document.createElement('button');
+  okButton.className = 'custom-confirm-button custom-confirm-ok';
+  okButton.textContent = 'OK';
+  okButton.onclick = function() {
+    document.body.removeChild(overlay);
+    if (typeof callback === 'function') {
+      callback(true);
+    }
+  };
+
+  // Create Cancel button
+  const cancelButton = document.createElement('button');
+  cancelButton.className = 'custom-confirm-button custom-confirm-cancel';
+  cancelButton.textContent = 'Cancel';
+  cancelButton.onclick = function() {
+    document.body.removeChild(overlay);
+    if (typeof callback === 'function') {
+      callback(false);
+    }
+  };
+
+  // Append buttons to buttons container
+  buttonsContainer.appendChild(okButton);
+  buttonsContainer.appendChild(cancelButton);
+
+  // Append elements to confirm box
+  confirmBox.appendChild(confirmMessage);
+  confirmBox.appendChild(buttonsContainer);
+
+  // Append confirm box to overlay
+  overlay.appendChild(confirmBox);
+
+  // Append overlay to body
+  document.body.appendChild(overlay);
+
+  // Set focus on the OK button
+  okButton.focus();
+}

@@ -173,7 +173,7 @@ class QuestionManageModel {
 
       if ($stmt->affected_rows > 0) {
         $stmt->close();
-        return ['status' => true, 'message' => 'Question added successfully.'];
+        return ['status' => true, 'message' => 'Question added successfully.', 'id'=> $insertedId];
       } else {
         $stmt->close();
         return ['status' => false, 'message' => 'Failed to add question to subject_question table.'];

@@ -14,9 +14,10 @@
   <h1>Quiz Page</h1>
 </header>
 <section id="main-section">
-  <p>Semester: <?php echo htmlspecialchars($_GET['sem']); ?></p>
-  <p>Subject: <?php echo htmlspecialchars($_GET['subject']); ?></p>
-
+  <div class = "flex flex-col items-center">
+  <p class="text-2xl">Semester: <?php echo htmlspecialchars($_GET['sem']); ?></p>
+  <p class="text-2xl">Subject: <?php echo htmlspecialchars($_GET['subject']); ?></p>
+  </div>
   <!-- Add a container for questions -->
   <div id="quiz-container">
     <div id="question-container"></div>
@@ -26,7 +27,9 @@
 
   <div id="result-container" class="result-container" style="display:none;">
     <div id="result-marks" class="result"></div>
+    <div> 
     <button onclick="goToDashboard()"> Go to Dashboard</button>
+    </div>
     <div id="correct-answer" class="correct-answer"></div>
   </div>
 </section>

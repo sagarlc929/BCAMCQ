@@ -13,9 +13,9 @@
   <body>
     <div class = "slidebar">
       <a class="" href="?route=home">Home</a>
-      <a class=""href="?route=user_manage">Manage Question</a>
-      <a class="active"href="?route=question_manage">Manage Users</a>
-      <a class="" href="#help">Help</a>
+      <a class=""href="?route=user_manage">Manage Users</a>
+      <a class="active"href="?route=question_manage">Manage Questions</a>
+      <a class="" href="?route=logout">Log Out</a>
     </div>
     <div class="content">
       <h1>Question Manage</h1>
@@ -60,19 +60,23 @@
           <input type="text" id="description" name="description" required><br>
 
           <label for="optionA">Option A:</label>
-          <input type="text" id="optionA" name="optionA" required><br>
-
+          <div class="option-btn">
+          <input type="text" id="optionA" class="opt-txt" name="optionA" required><input type="radio" name="opt-rad" id="radOpt-A" checked>
+          </div>
+          <div class="option-btn">
           <label for="optionB">Option B:</label>
-          <input type="text" id="optionB" name="optionB" required><br>
+          <input type="text" id="optionB" class="opt-txt" name="optionB" required><input type="radio" name="opt-rad"  id="radOpt-B">
+          </div>
 
+          <div class="option-btn">
           <label for="optionC">Option C:</label>
-          <input type="text" id="optionC" name="optionC" required><br>
+          <input type="text" id="optionC" class="opt-txt"  name="optionC" required><input type="radio" name="opt-rad"  id="radOpt-C">
+          </div>
 
+          <div class="option-btn">
           <label for="optionD">Option D:</label>
-          <input type="text" id="optionD" name="optionD" required><br>
-
-          <label for="answer">Answer:</label>
-          <input type="text" id="answer" name="answer" required><br>
+          <input type="text" id="optionD" class="opt-txt" name="optionD" required><input type="radio" name="opt-rad"  id="radOpt-D">
+          </div>
 
           <label for="explanation">Explanation:</label>
           <textarea id="explanation" name="explanation" rows="4" cols="50" required></textarea><br>

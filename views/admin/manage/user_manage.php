@@ -15,8 +15,8 @@
 <body>
       <div class = "slidebar">
       <a class="" href="?route=home">Home</a>
-      <a class="active"href="?route=user_manage">Manage Question</a>
-      <a class=""href="?route=question_manage">Manage Users</a>
+      <a class="active"href="?route=user_manage">Manage Users</a>
+      <a class=""href="?route=question_manage">Manage Questions</a>
       <a class="split" href="#help">Help</a>
     </div>
   <div class="container content">
