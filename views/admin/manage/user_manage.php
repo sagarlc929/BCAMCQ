@@ -22,9 +22,8 @@
   <div class="container content">
   <h1>User Management</h1>
     <!-- Add a table to display user data -->
-    <div id="message"> hi</div>
-    <button type="button" id="add">Add</button>
-    <div class="table-container">
+    <button type="button" class="add"  style ="display:block;"id="add-user">Add</button>
+    <div class="table-container-user">
     <table class="table">
       <thead>
         <tr>
@@ -48,7 +47,7 @@
           echo "<td>" . $user['uname'] . "</td>";
           echo "<td>" . $user['email'] . "</td>";
           echo "<td>" . $user['contact_no'] . "</td>";
-          echo "<td>" . "<div class='table-controls'><button type='button' class='deleteBtn' id='delete'>Delete</button><button type='button' class='modifyBtn' id='modify'>Modify</button></div>" . "</td>";
+          echo "<td>" . "<button class='deleteBtn' type='button' data-user-id='". $user['u_id'] . "' onclick='deleteUser(this.getAttribute('data-user-id'))'>DELETE</button> <button class='modifyBtn' type='button' data-user-id='". $user['u_id'] . "' onclick='modifyUser(this.getAttribute('data-user-id'))'>MODIFY</button>" . "</td>";
           echo "</tr>";
         }
         ?>
@@ -57,29 +56,32 @@
     </div>
   </div>
 
+
 <div id="popupOverlay" class="overlay-container">
   <div class="popup-box">
-    <h2 style="color: gray;">Add New User</h2>
+    <h2>Add New User</h2>
 
-    <fieldset>
-      <label for="first-name">First Name: <input type="text" id="first-name" name="first-name" required></label><br>
-      <label for="last-name">Last Name: <input type="text" id="last-name" name="last-name" required></label><br>
-      <label for="email">Email: <input type="email" id="email" name="email" required></label><br>
-      <label for="contact-no">Contact Number: <input type="tel" id="contact-no" name="contact-no" required></label><br>
-    </fieldset>
-
-    <fieldset>
-      <label for="user-name">User Name: <input type="text" id="user-name" name="user-name" required></label><br>
-      <label for="new-password">New Password: <input type="password" id="new-password" name="new-password" required></label><br>
-      <label for="confirm-password">Confirm New Password: <input type="password" id="confirm-password" name="confirm-password" required></label><br>
-    </fieldset>
-
-    <button id="add-user" onclick="addUser()">Add User</button>
+    <label for="first-name">First Name:</label>
+    <input type="text" id="first-name" name="first-name" required>
+    <label for="last-name">Last Name:</label>
+    <input type="text" id="last-name" name="last-name" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <label for="contact-no">Contact Number:</label>
+    <input type="tel" id="contact-no" name="contact-no" required>
+    <label for="user-name">User Name:</label>
+    <input type="text" id="user-name" name="user-name" required>
+    <label for="new-password">New Password:</label>
+    <input type="password" id="new-password" name="new-password" required>
+    <label for="confirm-password">Confirm New Password:</label>
+    <input type="password" id="confirm-password" name="confirm-password" required>
+    <button id="add-user-proceed" onclick="addUser()">Add User</button>
     <button class="btn-close-popup" onclick="togglePopup()">Close</button>
   </div>
 </div>
 
-  <script src="js/userManage.js"></script>
+<div class="alert" id="message"></div>
+<script src="js/userManage.js"></script>
 </body>
 
 </html>

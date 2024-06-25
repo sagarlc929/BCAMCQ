@@ -7,11 +7,15 @@
   <link rel="stylesheet" href="css/UserDashboard.css">
   <link rel="stylesheet" href="css/register_form_style.css" />
   <link rel="stylesheet" href="css/alert.css" />
+  <link rel="stylesheet" href="css/home-style.css" />
+  
 </head>
 <body>
-  <form id="registrationForm" class="form-container" method="post" action="?route=register">
+  <header>
+    <a href="?route=home"><img class="w-8 float-left" src="images/logo-black.png" alt="logo"></a>
     <h1>Registration Form</h1>
-    <p>Please fill out this form with the required information</p>
+  </header> <form id="registrationForm" class="form-container" method="post" action="?route=register">
+
     <fieldset>
       <label for="first-name">Enter Your First Name: <input id="first-name" name="first-name" type="text" required /></label>
       <label for="last-name">Enter Your Last Name: <input id="last-name" name="last-name" type="text" required /></label>

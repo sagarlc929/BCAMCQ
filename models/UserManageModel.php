@@ -15,25 +15,56 @@ class UserManageModel {
 
   public function getAllUsers() {
     $users= array(); // Initialize an array to store the questions
+    $query = "SELECT u_id, fname, lname, uname, email, contact_no FROM user";
 
-    // Query to fetch questions from the database
-    $query = "SELECT * FROM user";
-
-    // Execute the query
     $result = $this->conn->query($query);
 
     if ($result) {
-      // Fetch rows and store them in the $questions array
       while ($row = $result->fetch_assoc()) {
         $users[] = $row;
       }
       $result->free(); // Free the result set
     } else {
-      // Handle the query error if needed
       echo "Error: " . $this->conn->error;
     }
-
     return $users;
+  }
+
+  function userAlreadyExists($username)
+  {
+    $stmt = $this->conn->prepare("SELECT COUNT(*) FROM user WHERE uname=?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->bind_result($count);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($count > 0)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  function addUser($firstName, $lastName, $email, $username, $password, $contactNo) {
+
+    $encryptedPassword = password_hash($password, PASSWORD_DEFAULT);
+    $stmt = $this->conn->prepare("INSERT INTO user (fname, lname, email, uname, password, contact_no) VALUES (?, ?, ?, ?, ?,?)");
+    $stmt->bind_param("ssssss", $firstName, $lastName, $email, $username, $encryptedPassword, $contactNo);
+
+    if ($stmt->execute()) {
+      $insertedId = $stmt->insert_id; // Get the auto-generated ID of the inserted question
+      //return true;
+      $success = true;
+      return [$success, $insertedId];
+    } else {
+      return false;
+    }
+
+    $stmt->close();
   }
 
 }

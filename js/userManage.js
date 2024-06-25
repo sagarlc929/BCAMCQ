@@ -1,3 +1,5 @@
+const messageDiv = document.getElementById('message');
+const tableBody = document.querySelector('tbody');
 //form popup
 function togglePopup() { 
   const overlay = document.getElementById('popupOverlay'); 
@@ -6,120 +8,126 @@ function togglePopup() {
 
 const blurDiv = document.getElementById("blur");
 const newQuestionMenu = document.getElementById("new-question");
-const addBtn = document.getElementById("add");
+const addBtn = document.getElementById("add-user");
 const overlay = document.getElementById('popupOverlay'); 
 
 addBtn.addEventListener('click', ()=>{
   overlay.classList.toggle('show'); 
 });
+// Add user
+const addUserProceed = document.getElementById('add-user-proceed');
+addUserProceed.onclick = addUserAjax;
+// Add click event listener to the "Add User" button
 
-/*
-document.addEventListener("DOMContentLoaded", function () {
 
-  const subjectSelectOption = document.getElementById("subjectSelect");
-  subjectSelectOption.addEventListener('change',()=>{
-    const subjectSelected = encodeURIComponent(document.getElementById('subjectSelect').value);
-    console.log('hi' + subjectSelected);
+function addUserAjax() {
+  if(validateForm()){
+    const addFirstName = document.getElementById('first-name').value;
+    const addLastName = document.getElementById('last-name').value;
+    const addEmail = document.getElementById('email').value;
+    const addContactNo = document.getElementById('contact-no').value;
+    const addUserName = document.getElementById('user-name').value;
+    const addNewPassword = document.getElementById('new-password').value;
+    const messageDiv = document.getElementById('message');
     const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
+
+    xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText)
+        console.log(this.responseText);
         const responseObject = JSON.parse(this.responseText);
-        console.log(responseObject.data);
-        if (responseObject.status === 1) {
-          generateTable(responseObject.data);
+        messageDiv.innerHTML = responseObject.message;
+        messageDiv.className = 'alert';
+        messageDiv.classList.add("show");
+
+        if (responseObject.status == true) {
+          messageDiv.classList.add("alert-success");
+          document.getElementById('first-name').value = "";
+          document.getElementById('last-name').value = "";
+          document.getElementById('email').value = "";
+          document.getElementById('contact-no').value = "";
+          document.getElementById('user-name').value = "";
+          document.getElementById('confirm-password').value = "";
+          document.getElementById('new-password').value = "";
+
+          const newRow = document.createElement("tr");
+          newRow.id = `row-${responseObject.id}`;
+          newRow.innerHTML = `<td>${responseObject.id}</td>
+            <td>${addFirstName}</td>
+            <td>${addLastName}</td>
+            <td>${addEmail}</td>
+            <td>${addContactNo}</td>
+            <td>${addUserName}</td>
+            <td>
+              <button class="deleteBtn" type="button" data-user-id="${responseObject.id}" onclick="deleteUser(this.getAttribute('data-user-id'))">DELETE</button>
+              <button class="modifyBtn" type="button" data-user-id="${responseObject.id}" onclick="modifyUser(this.getAttribute('data-user-id'))">MODIFY</button>
+            </td>
+          `;
+          tableBody.appendChild(newRow);
+          setTimeout(() => {
+            messageDiv.classList.remove("show");
+          }, 3000);
         } else {
-          console.error('Error: ' + responseObject.message); // Log the error message
-        }       // console.log(responseObject);
+          messageDiv.classList.add("alert-danger");
+          setTimeout(() => {
+            messageDiv.classList.remove("show");
+          }, 5000);
+        }
       }
     };
-    // Use the POST method and set the appropriate content type
-    xhttp.open("POST", "?route=question_manage");
-    xhttp.setRequestHeader(
-      "Content-Type",
-      "application/x-www-form-urlencoded",
-    );
-    // Send the request with the questionId as data
-    let data = `action=getQuestions&subjectSelected=${subjectSelected}`;
+
+    xhttp.open("POST", "?route=user_manage");
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    let data = `action=addNewUser&first-name=${encodeURIComponent(addFirstName)}&last-name=${encodeURIComponent(addLastName)}&email=${encodeURIComponent(addEmail)}&contact-no=${encodeURIComponent(addContactNo)}&user-name=${encodeURIComponent(addUserName)}&new-password=${encodeURIComponent(addNewPassword)}`;
     xhttp.send(data);
-  });
+  }
+}
 
-  // Get all the buttons with the class 'deleteBtn'
-  const deleteBtns = document.querySelectorAll(".deleteBtn");
 
-  // Loop through each button and add a click event listener
-  deleteBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const questionId = btn.dataset.questionId;
-      if (
-        confirm(
-          `Are you sure you want to delete this question?i.e:${questionId}`,
-        )
-      )
-      {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-            const responseObject = JSON.parse(this.responseText);
-            document.getElementById("message").innerText = responseObject.message;
-            const rowToDelete = document.getElementById(questionId);
-            if (responseObject.delete_flag == 1) {
-              if (rowToDelete) {
-                rowToDelete.remove();
-              }
-            }
-          }
-        };
-        // Use the POST method and set the appropriate content type
-        xhttp.open("POST", "?route=question_manage");
-        xhttp.setRequestHeader(
-          "Content-Type",
-          "application/x-www-form-urlencoded",
-        );
-        // Send the request with the questionId as data
-        let data = `action=delete&question_id=${questionId}`;
-        xhttp.send(data);
+
+
+function validateForm() {
+  let isValid = true;
+  const popupBox = document.querySelector('.popup-box');
+  const inputs = popupBox.querySelectorAll('input');
+
+  let password = '';
+  let confirmPassword = '';
+
+  inputs.forEach(input => {
+    if (input.type !== 'submit' && input.type !== 'checkbox') {
+      if (!input.value.trim()) {
+        isValid = false;
+        showMessage(`Please fill in ${input.name.replace(/-/g, ' ')}`);
       }
-    });
-  });
 
-*/
+      if (input.name === 'new-password') {
+        password = input.value.trim();
+      }
 
-// Add user
-const addUser = document.getElementById('add-user');
-
-// Add click event listener to the "Add User" button
-addUser.addEventListener('click', () => {
-  const firstName = encodeURIComponent(document.getElementById('first-name').value);
-  const lastName = encodeURIComponent(document.getElementById('last-name').value);
-  const email = encodeURIComponent(document.getElementById('email').value);
-  const contactNo = encodeURIComponent(document.getElementById('contact-no').value);
-  const userName = encodeURIComponent(document.getElementById('user-name').value);
-  const newPassword = encodeURIComponent(document.getElementById('new-password').value);
-  const confirmPassword = encodeURIComponent(document.getElementById('confirm-password').value);
-
-  // Send an AJAX request to add the new user
-  const xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-      try {
-        const responseObject = JSON.parse(this.responseText);
-        // Use responseObject here, e.g., show success message or update user list
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
+      if (input.name === 'confirm-password') {
+        confirmPassword = input.value.trim();
       }
     }
-  };
+  });
 
-  // Use the POST method and set the appropriate content type
-  //case "register":
-  xhttp.open("POST", "?route=add_user");
-  xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  if (password !== confirmPassword) {
+    isValid = false;
+    showMessage('Passwords do not match');
+  }
 
-  // Send the request with user data
-  let data = `action=addNewUser&first_name=${firstName}&last_name=${lastName}&email=${email}&contact_no=${contactNo}&user_name=${userName}&new_password=${newPassword}&confirm_password=${confirmPassword}`;
-  xhttp.send(data);
-});
-      
+  return isValid;
+}
+
+function showMessage(message) {
+
+  messageDiv.className = 'alert'; // Reset class to 'alert'
+
+        messageDiv.classList.add("show"); // Remove "show" class to trigger fade-out
+  messageDiv.classList.add("alert-danger");
+  messageDiv.innerText = message;
+  setTimeout(() => {
+    messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+  }, 5000); 
+}
+

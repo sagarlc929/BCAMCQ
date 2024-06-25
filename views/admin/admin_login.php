@@ -6,18 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Login - BCA MCQ</title>
   <link rel="stylesheet" type="text/css" href="css/login-style.css">
+  <link rel="stylesheet" type="text/css" href="css/reader.css">
 </head>
 <body>
-  <h1>Hi Admin, let's Login:</h1>
-  
-  <form action="?route=admin" method="POST">
+  <header>
+    <a href="?route=home"><img class="w-8 float-left" src="images/logo-black.png" alt="logo"></a>
+    <h1>Hi, Admin</h1>
+  </header> 
+
+
+  <form action="?route=login_admin" method="POST">
     
     <label for="username">Username:</lable>
     <input type="text" id="username" name="username" required/>
 
     <label for="password">Password:</lable>
     <input type="password" id="password" name="password" required/>
-    <button type="submit">Log In</button>
+    <button type="submit" class="text-base">Log In</button>
   </form>
 </body>
 </html>

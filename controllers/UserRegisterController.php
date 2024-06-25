@@ -70,6 +70,7 @@ class UserRegisterController {
     header('Content-Type: application/json');
     echo $response;
     exit;
+    break;
   }
 
   private function validateForm($firstName, $lastName, $email, $username, $password, $contactNo) {

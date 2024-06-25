@@ -183,6 +183,48 @@ class QuestionManageModel {
       return ['status' => false, 'message' => 'Failed to add question to questions_table.'];
     }
   }
+
+  //$response = $this->updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation);
+ 
+
+public function updateQuestion($id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation) {
+  // Query to check if the data is the same as the current data
+  $checkQuery = "SELECT * FROM question WHERE question_id=? AND description=? AND option_A=? AND option_B=? AND option_C=? AND option_D=? AND answer=? AND explanation=?";
+  $checkStmt = $this->conn->prepare($checkQuery);
+
+  if (!$checkStmt) {
+    return ['status' => false, 'message' => 'Failed to prepare the statement for data check.'];
+  }
+
+  $checkStmt->bind_param('isssssss', $id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation);
+  $checkStmt->execute();
+  $checkStmt->store_result();
+
+  if ($checkStmt->num_rows > 0) {
+    $checkStmt->close();
+    return ['status' => false, 'message' => 'The update data is the same as the existing data.'];
+  }
+  
+  $checkStmt->close();
+
+  // Update the question in the question table
+  $query = "UPDATE question SET description=?, option_A=?, option_B=?, option_C=?, option_D=?, answer=?, explanation=? WHERE question_id=?";
+  $stmt = $this->conn->prepare($query);
+
+  if (!$stmt) {
+    return ['status' => false, 'message' => 'Failed to prepare the statement for question update.'];
+  }
+
+  $stmt->bind_param('sssssssi', $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation, $id);
+  $stmt->execute();
+
+  if ($stmt->affected_rows > 0) {
+    return ['status' => true, 'message' => 'Question updated successfully.'];
+  } else {
+    return ['status' => false, 'message' => 'No changes were made to the question.'];
+  }
+}
+
   public function closeConnection() {
     // Close the database connection
     $this->conn->close();

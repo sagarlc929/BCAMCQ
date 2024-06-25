@@ -59,18 +59,6 @@ case "report":
   /* $userDashboardController->displayUserDashboard(); */
   break;
 
-case "admin_dashboard":
-  session_start();
-  if (!isset($_SESSION['admin_authenticated']) || $_SESSION['admin_authenticated'] !== true) {
-    header('Location:?route=admin');
-    exit;
-  }
-  // Include the UserDashboardController
-  require_once "controllers/AdminDashboardController.php";
-  $adminDashboardController = new AdminDashboardController();
-  $adminDashboardController->displayAdminDashboard();
-  break;
-
 case "quiz":
 
   session_start();
@@ -85,7 +73,7 @@ case "quiz":
   $quizController->displayQuizPage();
   break;
 
-case "admin":
+case "login_admin":
 
   require_once "controllers/AdminLoginController.php";
   $adminLoginController = new AdminLoginController();

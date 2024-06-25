@@ -9,8 +9,10 @@
   <link rel="stylesheet" type="text/css" href="css/login-style.css">
 </head>
 <body>
-  <h1>Login</h1>
-  
+  <header>
+    <a href="?route=home"><img class="w-8 float-left" src="images/logo-black.png" alt="logo"></a>
+    <h1>Login</h1>
+  </header>  
   <form action="?route=login" method="POST">
     
     <label for="username">Username:</lable>

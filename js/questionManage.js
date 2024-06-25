@@ -1,11 +1,9 @@
 //var allQuestion = <?php echo json_encode($allQuestion); ?>;
-generateTable(allQuestion); //questions.innerHTML = generateTable(allQuestion);
+//generateTable(allQuestion); //questions.innerHTML = generateTable(allQuestion);
 
 function generateTable(data) {
   if(data.status == false){
-    //console.log(data.message);
   } else {
-
     const tableBody = document.getElementById("tableBody");
     tableBody.innerHTML = "";
 
@@ -22,8 +20,8 @@ function generateTable(data) {
 <td>${item.answer}</td>
 <td>${item.explanation}</td>
 <td class="table-controls">
-<button class="deleteBtn" type="button" data-question-id="${item.question_id}">DELETE</button>
-<button class="modifyBtn" type="button">Modify</button>
+  <button class="deleteBtn" type="button" data-question-id="${item.question_id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
+  <button class="modifyBtn" type="button" data-question-id="${item.question_id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
 </td>
 `;
       tableBody.appendChild(row);
@@ -61,7 +59,6 @@ function populateSubjectDropdown() {
       subjectSelect.appendChild(option);
     });
   }
-
 }
 
 // Event listener for semester dropdown to populate subject dropdown
@@ -72,15 +69,21 @@ populateSemesterDropdown();
 
 const subjectSelect = document.getElementById('subjectSelect');
 const qnAddBtn = document.getElementById('add');
-
-subjectSelect.addEventListener('change', () => {
-  console.log(subjectSelect.value);
+const tableContainer = document.querySelector('.table-container');
+const selectSemSubMes = document.getElementById('select-sem-sub-mes')
+subjectSelect.addEventListener('change', addAddBtn);
+semesterSelect.addEventListener('change', addAddBtn);
+function addAddBtn(){
   if (subjectSelect.value === "") {
     qnAddBtn.style.display = "none";
+    tableContainer.style.display = "none";
+    selectSemSubMes.style.display = "block";
   } else {
     qnAddBtn.style.display = "block";
+    tableContainer.style.display = "block";
+    selectSemSubMes.style.display = 'none';
   }
-});
+}
 
 //form popup
 function togglePopup() { 
@@ -102,187 +105,289 @@ addBtn.addEventListener('click', ()=>{
 
   selectedSemSpan.innerText = semesterSelect.value;
   selectedSubSpan.innerText = subjectSelect.value;
+
+  document.getElementById('proceedBtn').innerText = 'Add Question';
+  document.getElementById('proceedBtn').onclick = addQuestion;
 });
 
 
+const subjectSelectOption = document.getElementById("subjectSelect");
 
-document.addEventListener("DOMContentLoaded", function () {
-
-  const subjectSelectOption = document.getElementById("subjectSelect");
-  subjectSelectOption.addEventListener('change',()=>{
-    const subjectSelected = encodeURIComponent(document.getElementById('subjectSelect').value);
-    const xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText)
-        const responseObject = JSON.parse(this.responseText);
-        console.log(responseObject.data);
-        if(responseObject.data.length === 0){
-          const tableBody = document.getElementById("tableBody");
-          const row = document.createElement("tr");
-          tableBody.innerHTML = "";
-          row.innerHTML = `<td colspan=9><span class="no-qn-mes">no questions</span></td>`;
-          tableBody.appendChild(row);
-        }
-        else if (responseObject.status === 1) {
-          generateTable(responseObject.data);
-        } else {
-          console.error('Error: ' + responseObject.message); // Log the error message
-        }       // console.log(responseObject);
+subjectSelectOption.addEventListener('change',()=>{
+  const subjectSelected = encodeURIComponent(document.getElementById('subjectSelect').value);
+  const xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText)
+      const responseObject = JSON.parse(this.responseText);
+      console.log(responseObject.data);
+      if(responseObject.data.length === 0){
+        const tableBody = document.getElementById("tableBody");
+        const row = document.createElement("tr");
+        row.id= 'no-qn-mes-row';
+        tableBody.innerHTML = "";
+        row.innerHTML = `<td colspan=9><span class="no-qn-mes">no questions</span></td>`;
+        tableBody.appendChild(row);
       }
-    };
-    // Use the POST method and set the appropriate content type
-    xhttp.open("POST", "?route=question_manage");
-    xhttp.setRequestHeader(
-      "Content-Type",
-      "application/x-www-form-urlencoded",
-    );
-    // Send the request with the questionId as data
-    let data = `action=getQuestions&subjectSelected=${subjectSelected}`;
-    xhttp.send(data);
+      else if (responseObject.status === 1) {
+        generateTable(responseObject.data);
+      } else {
+        console.error('Error: ' + responseObject.message); // Log the error message
+      }       // console.log(responseObject);
+    }
+  };
+  xhttp.open("POST", "?route=question_manage");
+  xhttp.setRequestHeader(
+    "Content-Type",
+    "application/x-www-form-urlencoded",
+  );
+  let data = `action=getQuestions&subjectSelected=${subjectSelected}`;
+  xhttp.send(data);
+});
+
+
+function addQuestion() {
+  const addDesc = document.getElementById('description').value;
+  const addOptA = document.getElementById('optionA').value;
+  const addOptB = document.getElementById('optionB').value;
+  const addOptC = document.getElementById('optionC').value;
+  const addOptD = document.getElementById('optionD').value;
+  var addAnsw;
+  const addExpl = document.getElementById('explanation').value;
+  const addSeme = document.getElementById('semesterSelect').value;
+  const addSubj = document.getElementById('subjectSelect').value;
+  var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
+
+  radioButtons.forEach(function(radioButton) {
+    if (radioButton.checked) {
+      var selectedId = radioButton.id;
+      var lastChar = selectedId.charAt(selectedId.length - 1);
+      addAnsw = document.getElementById("option"+lastChar).value;
+    }
   });
 
-  // Get all the buttons with the class 'deleteBtn'
-  const deleteBtns = document.querySelectorAll(".deleteBtn");
+  const messageDiv = document.getElementById('message');
+  const xhttp = new XMLHttpRequest();
 
-  // Loop through each button and add a click event listener
-  deleteBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const questionId = btn.dataset.questionId;
-      customConfirm(`Are you sure you want to delete this question?i.e:${questionId}`, function(result) {
-        if (result) {
-          const xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-              console.log(this.responseText);
-              const responseObject = JSON.parse(this.responseText);
-              document.getElementById("message").innerText = responseObject.message;
-              const rowToDelete = document.getElementById("row-"+questionId);
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      const responseObject = JSON.parse(this.responseText);
+      messageDiv.innerText = responseObject.message; // Set inner HTML
+      messageDiv.className = 'alert'; // Reset class to 'alert'
+      messageDiv.classList.add("show"); 
 
-              const messageDiv = document.getElementById('message');
-              messageDiv.innerText = responseObject.message; // Set inner HTML
-              messageDiv.className = 'alert'; // Reset class to 'alert'
-              messageDiv.classList.add("show"); 
+      if (responseObject.status == true) {
+        messageDiv.classList.add("alert-success");
+        document.getElementById('description').value = "";
+        document.getElementById('optionA').value = "";
+        document.getElementById('optionB').value = "";
+        document.getElementById('optionC').value = "";
+        document.getElementById('optionD').value = "";
+        document.getElementById('explanation').value = "";
 
-              if (responseObject.status == 1) {
-                messageDiv.classList.add("alert-success");
-                if (rowToDelete) {
-                  rowToDelete.remove();
-                  setTimeout(() => {
-                    messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-                  }, 3000);
+        const newRow = document.createElement("tr");
+        newRow.id = `row-${responseObject.id}`;
+        newRow.innerHTML = `<td>${responseObject.id}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td>
+          <button class="deleteBtn" type="button" data-question-id="${responseObject.id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
+          <button class="modifyBtn" type="button" data-question-id="${responseObject.id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
+        `;
+        tableBody.appendChild(newRow);
+        if (document.querySelector("#no-qn-mes-row")) {
+          document.querySelector("#no-qn-mes-row").remove();
+        }
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 3000);
 
-                } 
-              }else {
-                messageDiv.classList.add("alert-danger");
-                setTimeout(() => {
-                  messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-                }, 5000); // 3 seconds
+      } else {
+        messageDiv.classList.add("alert-danger");
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 5000); // 3 seconds
+      }
+    }
+  };
+
+  // Use the POST method and set the appropriate content type
+  xhttp.open("POST", "?route=question_manage");
+  xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  // Send the request with the questionId as data
+  let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
+  xhttp.send(data);
+}
+
+function deleteQuestion(questionId){
+  customConfirm(`Are you sure you want to delete this question?i.e:${questionId}`, function(result) {
+    if (result) {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const responseObject = JSON.parse(this.responseText);
+          document.getElementById("message").innerText = responseObject.message;
+          const rowToDelete = document.getElementById("row-"+questionId);
+
+          const messageDiv = document.getElementById('message');
+          messageDiv.innerText = responseObject.message; // Set inner HTML
+          messageDiv.className = 'alert'; // Reset class to 'alert'
+          messageDiv.classList.add("show"); 
+
+          if (responseObject.status == 1) {
+            messageDiv.classList.add("alert-success");
+            if (rowToDelete) {
+              rowToDelete.remove();
+              //implment check 
+              const tableBody = document.getElementById('tableBody');
+              const tableRow = document.getElementsByTagName('tr');
+              if(tableRow){
+                const tableBody = document.getElementById("tableBody");
+                const row = document.createElement("tr");
+                row.id = 'no-qn-mes-row';
+                tableBody.innerHTML = "";
+                row.innerHTML = `<td colspan=9><span class="no-qn-mes">no questions</span></td>`;
+                tableBody.appendChild(row);
               }
+              setTimeout(() => {
+                messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+              }, 3000);
 
-            }
-          };
-          // Use the POST method and set the appropriate content type
-          xhttp.open("POST", "?route=question_manage");
-          xhttp.setRequestHeader(
-            "Content-Type",
-            "application/x-www-form-urlencoded",
-          );
-          // Send the request with the questionId as data
-          let data = `action=delete&question_id=${questionId}`;
-          xhttp.send(data);
+            } 
+          }else {
+            messageDiv.classList.add("alert-danger");
+            setTimeout(() => {
+              messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+            }, 5000); // 3 seconds
+          }
+
         }
-      });
-    });
+      };
+      // Use the POST method and set the appropriate content type
+      xhttp.open("POST", "?route=question_manage");
+      xhttp.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded",
+      );
+      // Send the request with the questionId as data
+      let data = `action=delete&question_id=${questionId}`;
+      xhttp.send(data);
+    }
   });
+}
+function modifyQuestion(questionId){
+  /*
+  customConfirm(`Are you sure you want to modify this question?i.e:${questionId}`, function(result) {
+    if (result) {
+      */
+  togglePopup();
 
+  const selectedSemSpan = document.getElementById("selected-sem-span");
+  const selectedSubSpan = document.getElementById("selected-sub-span");
+  const semesterSelect = document.getElementById('semesterSelect');
+  const subjectSelect = document.getElementById('subjectSelect');
+  selectedSemSpan.innerText = semesterSelect.value;
+  selectedSubSpan.innerText = subjectSelect.value;
 
-  // add question  
-  const addQuestion = document.getElementById('add-question');
-
-  // Loop through each button and add a click event listener
-  addQuestion.addEventListener('click', () => {
-
-    // The first line remains the same
-    const addDesc = document.getElementById('description').value;
-    const addOptA = document.getElementById('optionA').value;
-    const addOptB = document.getElementById('optionB').value;
-    const addOptC = document.getElementById('optionC').value;
-    const addOptD = document.getElementById('optionD').value;
-    var addAnsw;
-    const addExpl = document.getElementById('explanation').value;
-    const addSeme = document.getElementById('semesterSelect').value;
-    const addSubj = document.getElementById('subjectSelect').value;
-    // Get all radio buttons with the name "opt-rad"
-    var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
-
-    // Loop through each radio button
-    radioButtons.forEach(function(radioButton) {
-      // Check if the radio button is checked
-      if (radioButton.checked) {
-        // Get the ID of the checked radio button
-        var selectedId = radioButton.id;
-        var lastChar = selectedId.charAt(selectedId.length - 1);
-        addAnsw = document.getElementById("option"+lastChar).value;
+  const row = document.getElementById(`row-${questionId}`);
+  if (row) {
+    const cells = row.getElementsByTagName('td');
+    const rowData = [];
+    for (let i = 0; i <= 7; i++) {
+      rowData.push(cells[i].innerText);
+    }
+    document.getElementById('description').value = rowData[1];
+    document.getElementById('optionA').value = rowData[2];
+    document.getElementById('optionB').value = rowData[3];
+    document.getElementById('optionC').value = rowData[4];
+    document.getElementById('optionD').value = rowData[5];
+    document.getElementById('explanation').value = rowData[7];
+    for(let i = 2; i <=5; i++){
+      if(rowData[6] === rowData[i]){
+        document.getElementById(`radOpt-${String.fromCharCode(i + 63)}`).checked = true;
       }
-    });
-
-    //const addSubj = encodeURIComponent(document.getElementById('subjectSelect').value);
-
-    // Do something with the questionId, e.g., send an AJAX request to delete the question
-
-    const messageDiv = document.getElementById('message');
-    const xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        console.log(this.responseText);
-        //try {
-        console.log(this.responseText);
-        const responseObject = JSON.parse(this.responseText);
-        messageDiv.innerText = responseObject.message; // Set inner HTML
-        messageDiv.className = 'alert'; // Reset class to 'alert'
-        messageDiv.classList.add("show"); 
-
-        if (responseObject.status == true) {
-          messageDiv.classList.add("alert-success");
-
-          document.getElementById('description').value = "";
-          document.getElementById('optionA').value = "";
-          document.getElementById('optionB').value = "";
-          document.getElementById('optionC').value = "";
-          document.getElementById('optionD').value = "";
-          document.getElementById('explanation').value = "";
-
-          const newRow = document.createElement("tr");
-          newRow.innerHTML = `<td>${responseObject.id}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td><td class="table-controls"><button class="deleteBtn" type="button" data-question-id="${responseObject.id}">DELETE</button><button class="modifyBtn" type="button">Modify</button></td>`;
-          tableBody.appendChild(newRow);
-          setTimeout(() => {
-            messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-          }, 3000);
-
-        } else {
-          messageDiv.classList.add("alert-danger");
-          setTimeout(() => {
-            messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-          }, 5000); // 3 seconds
-        }
-
-        //} catch (error) {
-        // console.error("Error parsing JSON:", error);
-        //}
-      }
+    }
+    document.getElementById('proceedBtn').innerText = 'Update Question';
+    document.getElementById('proceedBtn').onclick = function(){
+      updateQuestionAjax(questionId);
     };
+  } else {
+    console.log('Row not found');
+  }
+}
 
-    // Use the POST method and set the appropriate content type
-    xhttp.open("POST", "?route=question_manage");
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+function updateQuestionAjax (questionId){
+  console.log("update Adj exec");
+  const addDesc = document.getElementById('description').value;
+  const addOptA = document.getElementById('optionA').value;
+  const addOptB = document.getElementById('optionB').value;
+  const addOptC = document.getElementById('optionC').value;
+  const addOptD = document.getElementById('optionD').value;
+  var addAnsw;
+  const addExpl = document.getElementById('explanation').value;
+  const addSeme = document.getElementById('semesterSelect').value;
+  const addSubj = document.getElementById('subjectSelect').value;
+  var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
 
-    // Send the request with the questionId as data
-    let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
-    xhttp.send(data);
+  radioButtons.forEach(function(radioButton) {
+    if (radioButton.checked) {
+      var selectedId = radioButton.id;
+      var lastChar = selectedId.charAt(selectedId.length - 1);
+      addAnsw = document.getElementById("option"+lastChar).value;
+    }
   });
-});
+
+  const messageDiv = document.getElementById('message');
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      const responseObject = JSON.parse(this.responseText); // Parse the response text
+      console.log(responseObject);
+      messageDiv.innerText = responseObject.message; // Set inner HTML
+      messageDiv.className = 'alert'; // Reset class to 'alert'
+      messageDiv.classList.add("show"); 
+
+      if (responseObject.status == true) {
+        document.getElementById('description').value = "";
+        document.getElementById('optionA').value = "";
+        document.getElementById('optionB').value = "";
+        document.getElementById('optionC').value = "";
+        document.getElementById('optionD').value = "";
+        document.getElementById('explanation').value = "";
+
+        const row = document.getElementById(`row-${questionId}`);
+        if(row){
+          const cells = row.getElementsByTagName('td');
+          cells[1].innerText = addDesc;
+          cells[2].innerText = addOptA;
+          cells[3].innerText = addOptB;
+          cells[4].innerText = addOptC
+          cells[5].innerText = addOptD;
+          cells[6].innerText = addAnsw;
+          cells[7].innerText = addExpl;
+        }
+
+        document.querySelector('.btn-close-popup').click();
+        messageDiv.classList.add("alert-success");
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 3000);
+
+      } else {
+        messageDiv.classList.add("alert-danger");
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 5000); // 3 seconds
+      }
+    }
+  };
+
+  xhttp.open("POST", "?route=question_manage");
+  xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  let data = `action=updateQuestion&id=${encodeURIComponent(questionId)}&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}`;
+  xhttp.send(data);
+}
 
 function showAlert(message) {
   var alertBox = document.getElementById('customAlert');

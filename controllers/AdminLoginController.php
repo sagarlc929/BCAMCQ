@@ -1,10 +1,3 @@
-<!---
-   $adminLoginController = new AdminLoginController();
-    $adminLoginController->displayAdminLoginForm();
-    $adminLoginController->processAdminLogin();
-    break;
-
--->
 <?php
 // controllers/LoginController.php
 
@@ -32,13 +25,13 @@ class AdminLoginController{
         $_SESSION['username'] = $username; 
 
         echo"login successfull";
-        header('Location: ?route=admin_dashboard');
+        header('Location: ?route=question_manage');
         exit;
       } else {
         //Failed Login 
         //You may set an error message and display it on the login form
         //For simplicity, we'll redirect back t the login form
-        header('Location: ?route=admin');
+        header('Location: ?route=login_admin');
         exit;
       }
     }

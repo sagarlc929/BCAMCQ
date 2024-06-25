@@ -29,17 +29,6 @@ class QuestionManageController
 
   public function displayQuestionManageDashboard()
   {
-    $allQuestion = $this->getAllQuestion();
-    $this->setAllQuestion($allQuestion);
-  }
-
-  private function getAllQuestion()
-  {
-    return $this->questionModel->getAllQuestion();
-  }
-
-  private function setAllQuestion($allQuestion)
-  {
     $semesters = $this->semesterModel->getSemesters();
     $semSub = [];
 
@@ -47,8 +36,8 @@ class QuestionManageController
       $subjects = $this->subjectModel->getSubjects($semester);
       $semSub[] = [$semester => $subjects];
     }
-
     require_once 'views/admin/manage/question_manage.php';
+
   }
 
 
@@ -93,17 +82,24 @@ class QuestionManageController
           echo json_encode($response);
           exit;
           break;
+//updateQuestion&
+        case 'updateQuestion':
 
-        case 'modify':
-          // Check if the necessary data for modifying a question is provided
-          // Implement modification logic here
-
-          // Redirect back to the question manage page after modification
-          //header('Location: ?route=question_manage');
+          $id = $_POST['id'];
+          $description = $_POST['description'];
+          $optionA = $_POST['optionA'];
+          $optionB = $_POST['optionB'];
+          $optionC = $_POST['optionC'];
+          $optionD = $_POST['optionD'];
+          $answer = $_POST['answer'];
+          $explanation = $_POST['explanation'];
+          $response = $this->updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation);
+          header('Content-Type: application/json');
+          echo json_encode($response);
           exit;
           break;
-        case 'addNewQuestion':
 
+        case 'addNewQuestion':
           $description = $_POST['description'];
           $optionA = $_POST['optionA'];
           $optionB = $_POST['optionB'];
@@ -113,12 +109,12 @@ class QuestionManageController
           $explanation = $_POST['explanation'];
           $semesterSelect = $_POST['semesterSelect'];
           $subjectSelect = $_POST['subjectSelect'];
-          
           $response = $this->addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect);
           header('Content-Type: application/json');
           echo json_encode($response);
           exit;
           break;
+
         case 'getQuestions':
           $subSelected = $_POST['subjectSelected'];
           $questions = $this->getQuestions($subSelected);
@@ -133,11 +129,13 @@ class QuestionManageController
 
           exit;
           break;
+
         default:
           // Handle invalid action
           echo 'Invalid action';
           break;
         }
+
       } else {
         // Handle action parameter missing
         echo 'Action parameter is missing';
@@ -155,19 +153,15 @@ class QuestionManageController
     // Return true if the question is successfully deleted, false otherwise
     return $this->questionModel->deleteQuestion($questionId);
   }
-  private function addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect){
 
+  private function addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect){
     return $this->questionModel->addQuestion($description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation, $subjectSelect);
-    // Function to modify a question
-  /*
-  private function modifyQuestion($questionId, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation)
-  {
-    // Implement your logic to modify the question using the QuestionModel or database operations
-    // Return true if the question is successfully modified, false otherwise
-    return $this->questionModel->modifyQuestion($questionId, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation);
   }
-   */
+
+  private function updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation){
+    return $this->questionModel->updateQuestion($id,$description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation);
   }
+
   private function getQuestions($subjectSelected){
     return $this->questionModel->getQuestions($subjectSelected);
   }

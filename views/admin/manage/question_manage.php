@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/quiz-style.css">
     <link rel="stylesheet" href="css/respon-nav.css">
     <link rel="stylesheet" href="css/alert.css">
+    <link rel="stylesheet" href="css/manage.css">
     <!-- Add your CSS styles or include external stylesheets here -->
   </head>
   <body>
@@ -30,7 +31,10 @@
       <div id="message" class="alert"></div>
         <div class="container">
           <button type="button" id="add">Add</button>
-          <div class="table-container">
+          <div id="select-sem-sub-mes">
+           <p> select semester and subject</p> 
+          </div>        
+          <div id="table-container"class="table-container">
             <table class="table">
               <thead>
                 <tr>
@@ -81,15 +85,14 @@
           <label for="explanation">Explanation:</label>
           <textarea id="explanation" name="explanation" rows="4" cols="50" required></textarea><br>
 
-          <button id="add-question">Add Question</button>
+          <button id="proceedBtn">proced button</button>
           <button class="btn-close-popup" onclick="togglePopup()">Close</button>
         </div>
       </div>
       <div class="alert" id="message"></div>
     </div>
-
+   
     <script>
-      var allQuestion = <?php echo json_encode($allQuestion); ?>;
       var semesterSubjects = <?php echo json_encode($semSub); ?>;
     </script>
     <script src="js/questionManage.js"></script>
