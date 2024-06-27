@@ -273,6 +273,7 @@ function deleteQuestion(questionId){
     }
   });
 }
+
 function modifyQuestion(questionId){
   /*
   customConfirm(`Are you sure you want to modify this question?i.e:${questionId}`, function(result) {

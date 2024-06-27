@@ -33,47 +33,53 @@ class UserManageController
 
         // Handle the action based on the value of the 'action' parameter
         switch ($action) {
+
         case 'delete':
-          // Check if the question ID is provided in the POST data
-          if (isset($_POST['question_id'])) {
-            $questionId = $_POST['question_id'];
+          // Check if the user ID is provided in the POST data
+          if (isset($_POST['user_id'])) {
+            $userId = $_POST['user_id'];
 
             // Perform the deletion operation and store the result in $deleted
-            $deleted = $this->deleteQuestion($questionId);
+            $deleted = $this->deleteUser($userId);
             if ($deleted) {
-
-              // Redirect back to the question manage page after deletion
+              // Redirect back to the user manage page after deletion
               $response = [
-                'message' => "Deleted successfully $questionId",
+                'message' => "Deleted successfully user ID $userId",
                 'status' => 1
               ];
             } else {
               $response = [
-                'message' => 'Failed to delete question',
+                'message' => 'Failed to delete user',
                 'status' => 0
               ];
             }
           } else {
-            // Handle the case where question ID is missing
+            // Handle the case where user ID is missing
             $response = [
-              'message' => 'Question ID is missing',
+              'message' => 'User ID is missing',
               'status' => 0
             ];
-            //echo 'Question ID is missing';
           }
           header('Content-Type: application/json');
           echo json_encode($response);
           exit;
           break;
+        case 'updateUser':
+          $id = $_POST['id'];
+          $firstName = $_POST['first-name'];
+          $lastName = $_POST['last-name'];
+          $email = $_POST['email'];
+          $contactNo = $_POST['contact-no'];
+          $userName = $_POST['user-name'];
+          $newPassword = $_POST['new-password'];
 
-        case 'modify':
-          // Check if the necessary data for modifying a question is provided
-          // Implement modification logic here
+          $response = $this->updateUser($id, $firstName, $lastName, $email, $contactNo, $userName, $newPassword);
 
-          // Redirect back to the question manage page after modification
-          //header('Location: ?route=question_manage');
+          header('Content-Type: application/json');
+          echo json_encode($response);
           exit;
           break;
+
         case 'addNewUser':
 
           $firstName = $_POST['first-name'];
@@ -113,7 +119,7 @@ class UserManageController
         'status' => 0 // Error status code
       ];
       return json_encode($response);
-      
+
     }
 
     // Check if username already exists
@@ -153,6 +159,12 @@ class UserManageController
     return !empty($firstName) && !empty($lastName) && !empty($email) && !empty($username) && !empty($password) && !empty($contactNo);
   }
 
+  private function updateUser($id, $firstName, $lastName, $email, $contactNo, $userName, $newPassword) {
+    return $this->userManageModel->updateUser($id, $firstName, $lastName, $email, $contactNo, $userName, $newPassword);
+  }
+  private function deleteUser($userId){
+    return $this->userManageModel->deleteUser($userId);
+  }
 }
 ?>
 

@@ -39,18 +39,23 @@
       <tbody>
         <?php
         // Assuming $users is an array of user data retrieved from your database
+      //row.id = "row-" + item.question_id;
         foreach ($users as $user) {
-          echo "<tr>";
+          echo "<tr id='row-" . $user['u_id'] . "' >";
           echo "<td>" . $user['u_id'] . "</td>";
           echo "<td>" . $user['fname'] . "</td>";
           echo "<td>" . $user['lname'] . "</td>";
           echo "<td>" . $user['uname'] . "</td>";
           echo "<td>" . $user['email'] . "</td>";
           echo "<td>" . $user['contact_no'] . "</td>";
-          echo "<td>" . "<button class='deleteBtn' type='button' data-user-id='". $user['u_id'] . "' onclick='deleteUser(this.getAttribute('data-user-id'))'>DELETE</button> <button class='modifyBtn' type='button' data-user-id='". $user['u_id'] . "' onclick='modifyUser(this.getAttribute('data-user-id'))'>MODIFY</button>" . "</td>";
+          echo "<td>";
+          echo "<button class='deleteBtn' type='button' data-user-id='" . $user['u_id'] . "' onclick='deleteUser(this.getAttribute(\"data-user-id\"))'>DELETE</button>";
+          echo " ";
+          echo "<button class='modifyBtn' type='button' data-user-id='" . $user['u_id'] . "' onclick='modifyUser(this.getAttribute(\"data-user-id\"))'>MODIFY</button>";
+          echo "</td>";
           echo "</tr>";
         }
-        ?>
+?>
       </tbody>
     </table>
     </div>
@@ -59,7 +64,7 @@
 
 <div id="popupOverlay" class="overlay-container">
   <div class="popup-box">
-    <h2>Add New User</h2>
+    <h2 id="popup-title">Popup Title</h2>
 
     <label for="first-name">First Name:</label>
     <input type="text" id="first-name" name="first-name" required>
@@ -75,7 +80,7 @@
     <input type="password" id="new-password" name="new-password" required>
     <label for="confirm-password">Confirm New Password:</label>
     <input type="password" id="confirm-password" name="confirm-password" required>
-    <button id="add-user-proceed" onclick="addUser()">Add User</button>
+    <button id="btn-proceed" onclick="addUser()">Button Proceed</button>
     <button class="btn-close-popup" onclick="togglePopup()">Close</button>
   </div>
 </div>
