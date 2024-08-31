@@ -91,10 +91,10 @@
       </div>
       <div class="alert" id="message"></div>
     </div>
-   
-    <script>
-      var semesterSubjects = <?php echo json_encode($semSub); ?>;
-    </script>
+
+<script>
+var semesterSubjects = <?php echo json_encode($semSub); ?>;
+</script>
     <script src="js/questionManage.js"></script>
   </body>
 

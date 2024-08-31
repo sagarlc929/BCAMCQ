@@ -13,6 +13,7 @@ overflow:auto;
 }
 .slidebar a{
   display:block;
+  cursor: pointer;
   color:black;
   padding:1.25rem;
   text-decoration:none;
@@ -29,7 +30,7 @@ overflow:auto;
 div.content{
   margin-left:200px;
   padding: 1px 16px;
-  height:1000px;
+  /*height:1000px;*/
 }
 @media screen and (max-width:700px){
   .slidebar{
@@ -38,7 +39,8 @@ div.content{
     position:relative;
   }
   .slidebar a{
-    float:left;
+  cursor: pointer;
+  float:left;
   }
   div.content{
     margin-left:0;
@@ -50,6 +52,7 @@ div.content{
   }
 }
 a{
+  cursor: pointer;
  display:flex;
  align-items:center;
 }
@@ -57,7 +60,8 @@ a{
   .slidebar a{
     text-align:center;
     float:none;
-  }
+  cursor: pointer;
+}
   a.split{
     background-color:#f1f1f1;
     color:black;

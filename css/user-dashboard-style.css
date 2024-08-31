@@ -53,3 +53,31 @@ box-sizing: border-box;
 .show {
   display: block;
 }
+
+/** user report **/
+
+.report-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 10px;
+  box-shadow: 2px 2px 12px #aaa;
+}
+.report-card h3 {
+  margin-top: 0;
+}
+.delete-btn {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.delete-btn:hover {
+  background-color: darkred;
+}
+#flex-div-report{
+display: grid;
+  grid-template-columns: auto auto auto;
+}

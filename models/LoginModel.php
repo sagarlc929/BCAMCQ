@@ -14,15 +14,35 @@ class LoginModel {
     }
 
     // Start the session here
-    session_start();
+    //session_start();
   }
+  public function getCurrentUserId($username){
 
+    // Use prepared statement to prevent SQL injection
+    $stmt = $this->conn->prepare("SELECT u_id FROM user WHERE uname=?");
+    
+    if($stmt === false){
+      // Throw an exception with an error message
+      throw new Exception('Error preparing the SQL statement');
+    }
+
+    $stmt->bind_param("s", $username);// Bind the parameter
+
+    // Execute the statement
+    $stmt->execute();
+
+
+    $result = $stmt->get_result(); // Get the result set from the executed query
+
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $userId = $row['u_id']; 
+      return $userId;
+    }
+
+  }
+ 
   public function validateCredentials($username, $password){
-    // Implement your logic to validate the credentials 
-    // Check against the database or any authentication mechanism
-    // Return true on successful validation, false otherwise
-    // Example: check against a user table in the database
-    // You might use password_hash and password_verify for password hashing
 
     // Use prepared statement to prevent SQL injection
     $stmt = $this->conn->prepare("SELECT password FROM user WHERE uname=?");

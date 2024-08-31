@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz Page</title>
   <link rel="stylesheet" href="css/quiz-style.css">
+  <link rel="stylesheet" href="css/alert.css">
   <!-- Add your CSS styles or include external stylesheets here -->
 
 </head>
@@ -32,10 +33,11 @@
     </div>
     <div id="correct-answer" class="correct-answer"></div>
   </div>
+ <div class="alert" id="message"> hi this is sagar</div>
 </section>
-
   <script>
     var questions = <?php echo json_encode($formattedQuestions); ?>;
+    var subjectId = <?php echo $subjectId;?>;
   </script>
   <script src="js/quiz.js"></script>
 </body>

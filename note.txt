@@ -1,2 +1,25 @@
 sql injection possible ->semester and quiz directly sql is used not prepare statemnt
 
+*** TODO ***
+#mange subject semester section in admin [] <-
+
+#home page auto show the quiz correct answer animation []
+
+*** CURRENTLY WORKING ***
+
+#userDashboar []
+  - show report []
+  {
+    -game to add report [] <-
+    -show userdashboard side way for report [*]
+  }
+
+
+***************************************
+user profile manager
+subject & semesterquiz type normal and past
+yearquestion 
+css-UI
+auto playing quiz at home
+time counting i.e filter
+no of quetion for noram quiz (ask no of question to play)

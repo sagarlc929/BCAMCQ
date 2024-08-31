@@ -41,8 +41,8 @@ case "user_dashboard":
 
   // Include the UserDashboardController
   require_once "controllers/UserDashboardController.php";
-  $userDashboardController = new UserDashboardController();
-  $userDashboardController->displayUserDashboard();
+//  $userDashboardController = new UserDashboardController();
+ // $userDashboardController->displayUserDashboard();
   break;
 
 case "report":
@@ -69,8 +69,8 @@ case "quiz":
 
   // Include the QuizController
   require_once "controllers/QuizController.php";
-  $quizController = new QuizController();
-  $quizController->displayQuizPage();
+ // $quizController = new QuizController();
+//  $quizController->displayQuizPage();
   break;
 
 case "login_admin":

@@ -22,7 +22,8 @@ class LoginController{
 
         // After successful login validation
         $_SESSION['user_authenticated'] = true;
-        $_SESSION['username'] = $username; 
+        $_SESSION['username'] = $username;
+        $_SESSION['user_id'] = $this->getCurrentUserId($username);
 
         echo"login successfull";
         header('Location: ?route=user_dashboard');
@@ -38,12 +39,13 @@ class LoginController{
   }
   
   private function validateCredentials($username, $password){
-    // Implement your logic to validate the credentials 
-    // Check against the or any autthnication mechainsm
-    // Return true on successful validation, false otherwise
-    // Example: check aginst a user table in the database
     $userModel = new LoginModel();
     return $userModel->validateCredentials($username, $password);
+  }
+
+  private function getCurrentUserId($username){
+    $userModel = new LoginModel();
+    return $userModel->getCurrentUserId($username);
   }
 }
 ?>

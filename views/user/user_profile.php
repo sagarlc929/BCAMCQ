@@ -18,7 +18,6 @@
       <a id="regular-a"class="active" onclick="displayRegularQn()">Regular Practice</a>
       <a id="past-a"class="" onclick="displayPastQn()">Past Question Practice</a>
       <a id="report-a"class="" onclick="displayReports()">My Reports</a>
-      <a id="report-a"class="" onclick="displayReports()">My Profile</a>
       <a class="" href="?route=logout">Log Out</a>
     </div>
     <div class="content">
