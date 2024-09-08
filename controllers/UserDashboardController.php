@@ -4,6 +4,7 @@
 require_once 'models/SemesterModel.php';
 require_once 'models/SubjectModel.php';
 require_once 'models/UserDashboardModel.php';
+require_once 'models/UserProfileModel.php';
 
 $userDashboardController = new UserDashboardController;
 if (isset($_POST['action'])) {
@@ -16,9 +17,11 @@ if (isset($_POST['action'])) {
 class UserDashboardController
 {
  private $userDashboardModel; 
+ private $userProfileModel; 
 
  public function __construct() {
     $this->userDashboardModel = new UserDashboardModel();
+    $this->userProfileModel = new UserProfileModel();
   }
   
   public function displayUserDashboard(){
@@ -54,6 +57,42 @@ class UserDashboardController
           echo json_encode($response);
           exit;
           break;
+
+          case 'get_user_info':
+            // Retrieve user ID from session
+            $userId = $_SESSION['user_id'];
+        
+            // Get the user profile information
+            $profileData = $this->getProfile($userId);
+        
+            // Decode the JSON data into an object
+            $response = json_decode($profileData);
+        
+            // Check if the profile data was retrieved successfully
+            if ($response) {
+                // Construct the response array
+                $responseArray = [
+                    'status' => 1,
+                    'message' => "User information retrieved successfully.",
+                    'data' => $response // Include the profile data
+                ];
+            } else {
+                // Handle the case where profile data could not be retrieved
+                $responseArray = [
+                    'status' => 0,
+                    'message' => "Failed to retrieve user information."
+                ];
+            }
+        
+            // Set the content type to JSON
+            header('Content-Type: application/json');
+        
+            // Return the response as JSON
+            echo json_encode($responseArray);
+            exit;
+            break;
+        
+
       //xhttp.send(`action=delete_report&report_id=${reportId}`);
         case 'delete_report':
           $reportId = $_POST['report_id'];
@@ -69,7 +108,22 @@ class UserDashboardController
           echo json_encode($response);
           exit;
           break;
-        }
+       case 'delete_report':
+          $reportId = $_POST['report_id'];
+          $deleted = $this->userDashboardModel->deleteReportById($reportId);
+
+          if ($deleted) {
+            $response['status'] = 1;
+            $response['message'] = "Report deleted successfully.";
+          } else {
+            $response['status'] = 0;
+            $response['message'] = "Failed to delete report.";
+          }
+          echo json_encode($response);
+          exit;
+          break;
+
+      }
       }
     }
   }
@@ -77,7 +131,10 @@ class UserDashboardController
 
     return $this->userDashboardModel->getReports($userId);
   }
+  private function getProfile($userId){
 
+    return $this->userProfileModel->getProfile($userId);
+  }
    private function deleteReportById($reportId){
 
     return $this->userDashboardModel->deleteReportById($reportId);

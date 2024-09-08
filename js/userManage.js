@@ -227,7 +227,7 @@ function deleteUser(userId) {
     }
   });
 }
-
+// TODO: remove this, import in view
 
 function customConfirm(message, callback) {
   // Create overlay

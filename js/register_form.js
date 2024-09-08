@@ -72,6 +72,7 @@ function validateForm() {
 
   return isValid;
 }
+//TODO: create the message function which takes parameter for time and alert type
 
 function showMessage(message) {
 

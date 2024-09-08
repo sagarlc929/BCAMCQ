@@ -25,24 +25,30 @@ case "login":
   $loginController->displayLoginForm();
   $loginController->processLogin();
   break;
-
 case "register":
   // Include the user registration controller
   require_once "controllers/UserRegisterController.php"; 
   break;
 
-case "user_dashboard":
-
+case "user_profile":
   session_start();
   if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
     header('Location: login.php');
     exit;
   }
+  // include the login controller
+  require_once "controllers/UserProfileController.php";
+  $updateController = new UserProfileController();
+  $updateController->processUserProfile();
+  break;
 
-  // Include the UserDashboardController
+case "user_dashboard":
+  session_start();
+  if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
+    header('Location: login.php');
+    exit;
+  }
   require_once "controllers/UserDashboardController.php";
-//  $userDashboardController = new UserDashboardController();
- // $userDashboardController->displayUserDashboard();
   break;
 
 case "report":

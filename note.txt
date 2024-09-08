@@ -4,7 +4,7 @@ sql injection possible ->semester and quiz directly sql is used not prepare stat
 #mange subject semester section in admin [] <-
 
 #home page auto show the quiz correct answer animation []
-
+validation for conflicting username and email for register updateAdmin
 *** CURRENTLY WORKING ***
 
 #userDashboar []
