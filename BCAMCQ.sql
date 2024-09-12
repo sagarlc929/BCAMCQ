@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: May 25, 2024 at 09:59 AM
--- Server version: 11.3.2-MariaDB
--- PHP Version: 8.3.7
+-- Generation Time: Sep 12, 2024 at 07:15 AM
+-- Server version: 11.5.2-MariaDB
+-- PHP Version: 8.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,7 +39,9 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`a_id`, `aname`, `password`) VALUES
 (1, 'admin', '$2y$10$EHuUlv3fRdJf7emVQvcWU.0aW7kc0V5XUKEtmbTGVaOFhycn.hHYS'),
-(2, 'root', '$2y$10$bMZHNF9PcVwUs4bMO6tk..SXvhNov1lbOXpXnfAC/Jb33rZCWXxam');
+(2, 'root', '$2y$10$bMZHNF9PcVwUs4bMO6tk..SXvhNov1lbOXpXnfAC/Jb33rZCWXxam'),
+(3, 'summer', '$2y$10$q7z8wfvH.t7fylLIHrIVw.vfZdokQ1uGYTj9aH0UixFYbZok2XLOC'),
+(4, 'summer', '$2y$10$q7z8wfvH.t7fylLIHrIVw.vfZdokQ1uGYTj9aH0UixFYbZok2XLOC');
 
 -- --------------------------------------------------------
 
@@ -63,9 +65,7 @@ CREATE TABLE `question` (
 --
 
 INSERT INTO `question` (`question_id`, `description`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `explanation`) VALUES
-(211, 'What is the output of the following code snippet?', 'int x = 10; printf(\"%d\", x++);', '10', '11', 'Compiler Error', '10', 'The postfix increment operator (x++) increments x after returning its value.'),
-(212, 'Which of the following is not a valid keyword in C?', 'yield', 'int', 'extern', 'goto', 'yield', 'yield is not a valid keyword in C programming.'),
-(213, 'What is the size of the int data type in C?', '2 bytes', '4 bytes', '8 bytes', 'Depends on the system architecture', '4 bytes', 'The size of int data type is 4 bytes in most systems.'),
+(213, 'What is the size of the int data type in C?', '2 bytes', 'sdfa4 bytes', '8 bytes', 'Depends on the system architecture', 'sdfa4 bytes', 'The size of int data type is 4 bytes in most systems.'),
 (214, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 5;\n    printf(\"%d\", ++i * ++i);\n    return 0;\n}', '36', '30', '42', 'Compiler Error', '42', 'The value of ++i is incremented twice before the multiplication operation.'),
 (215, 'Which operator is used to access the value at the address of a variable in C?', '*', '&', '$', '#', '&', 'The & operator is used for address-of operations in C.'),
 (216, 'What is the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 10;\n    printf(\"%d %d %d\", i++, i++, i++);\n    return 0;\n}', '10 11 12', '12 11 10', '11 12 10', 'Undefined behavior', '11 12 10', 'The order of evaluation of i++ is not defined, resulting in undefined behavior.'),
@@ -76,7 +76,13 @@ INSERT INTO `question` (`question_id`, `description`, `option_A`, `option_B`, `o
 (221, 'Which of the following is a valid comment in C?', '// This is a comment', '# This is a comment', '; This is a comment', '<!-- This is a comment -->', '// This is a comment', 'In C, comments start with // for single-line comments and /* */ for multi-line comments.'),
 (222, 'What is the purpose of the sizeof operator in C?', 'To return the size of a variable or data type in bytes', 'To calculate the square root of a number', 'To convert a string to uppercase', 'To increment a variable by 1', 'To return the size of a variable or data type in bytes', 'The sizeof operator is used to determine the size of a variable or data type in bytes.'),
 (223, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int x = 10;\n    if (x == 10)\n    {\n        printf(\"x is equal to 10\");\n    }\n    else\n    {\n        printf(\"x is not equal to 10\");\n    }\n    return 0;\n}', 'x is equal to 10', 'x is not equal to 10', 'Compiler Error', 'Undefined behavior', 'x is equal to 10', 'The condition x == 10 is true, so the output will be \"x is equal to 10\".'),
-(224, 'Which of the following is the correct way to declare an array in C?', 'int array[10];', 'array int[10];', 'int *array = new int[10];', 'Array<int> array = new Array<int>(10);', 'int array[10];', 'The correct syntax to declare an array in C is int array[10];');
+(224, 'Which of the following is the correct way to declare an array in C?', 'int array[10];', 'array int[10];', 'int *array = new int[10];', 'Array<int> array = new Array<int>(10);', 'int array[10];', 'The correct syntax to declare an array in C is int array[10];'),
+(225, 'What is the size of the int data type in C?', '2 bytes', '4 bytes', '8 bytes', 'Depends on the system architecture', '4 bytes', 'The size of int data type is 4 bytes in most systems.'),
+(229, 'fladfj', 'kklh', '', '', '', 'kklh', ''),
+(231, '', '', '', '', '', '', ''),
+(235, 'wahat is computer?', 'electoring device', 'i dont know', 'hi', 'hii', 'electoring device', 'this is the way it should work.\n'),
+(236, 'whor ', 'aere ', 'you ', 'jlajd', 'iajsdlk', 'iajsdlk', 'adjadlkf'),
+(237, 'how ', 'are ', 'you ', 'aldkjfal', 'ialjsdfilj', 'are ', 'ijklasjdf');
 
 -- --------------------------------------------------------
 
@@ -89,6 +95,31 @@ CREATE TABLE `report` (
   `marks` varchar(256) NOT NULL,
   `subject_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`report_id`, `marks`, `subject_id`) VALUES
+(1, '9/10', 3),
+(2, '7/10', 5),
+(3, '9/10', 10),
+(4, '9/8', 2),
+(5, '5/8', 1),
+(6, '5/8', 1),
+(7, '0', 1),
+(8, '0', 1),
+(9, '1', 1),
+(10, '0', 1),
+(11, '1', 1),
+(12, '0', 1),
+(13, '1', 1),
+(14, '1', 1),
+(15, '1', 1),
+(16, '0', 1),
+(17, '0', 1),
+(18, '0', 1),
+(19, '2', 1);
 
 -- --------------------------------------------------------
 
@@ -190,8 +221,6 @@ CREATE TABLE `subject_question` (
 --
 
 INSERT INTO `subject_question` (`subject_id`, `question_id`) VALUES
-(6, 211),
-(6, 212),
 (6, 213),
 (6, 214),
 (6, 215),
@@ -203,7 +232,13 @@ INSERT INTO `subject_question` (`subject_id`, `question_id`) VALUES
 (6, 221),
 (6, 222),
 (6, 223),
-(6, 224);
+(6, 224),
+(6, 225),
+(2, 229),
+(3, 231),
+(1, 235),
+(1, 236),
+(1, 237);
 
 -- --------------------------------------------------------
 
@@ -226,17 +261,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`u_id`, `fname`, `lname`, `uname`, `password`, `email`, `contact_no`) VALUES
-(2, 'sakhjg', 'kjlhg', 'ljkhg', 'adfsgdfsg', 'sagar@gamil.com', '089876'),
-(3, ';ljkhgfds', 'kljhgf', 'hari', '$2y$10$3boajxhcG.MVoULXP.jJZO1n8wXwnXPxgiz/Ga6Fl9l1ZMqlknFq6', 'dfghjg.@gmail.com', '09867987'),
-(4, 'user', 'user', 'user', '$2y$10$bMZHNF9PcVwUs4bMO6tk..SXvhNov1lbOXpXnfAC/Jb33rZCWXxam', 'user@gmail.com', '80967'),
-(5, 'ghjk', 'gjhkjlk', 'hjkl;', '$2y$10$t489..lBQcLtRGi1W3oPm.uMGKPWusWznHgrrkOanTd3rbZmnjhOS', 'hgjkl', 'ghjkl'),
-(6, 'ghjk', 'ghjkl', 'hgjkll', '$2y$10$OS1rRpvQZVHdfOA16OK5AOme9sfar13tvmVs7TETtwNUg9.pD6Dd2', 'hgjkl', 'hjgkl'),
-(7, 'summer', 'ghjk', 'summer', '$2y$10$wbgZeiInCvbtGpHgRLRePuYEbGMI8mORkFnow91GMODRYRBvqdmsi', 'hjk', 'jhk'),
-(8, 'summer', 'ghjk', 'kgh', '$2y$10$KsIeMDqJYV5Zms6GIjnBlOOqa2a/Fa41mPexOGi.dxey8DjNXu0bK', 'ghjk', 'ghj'),
-(9, 'summer', 'ghjk', 'hgjk', '$2y$10$kyPoHgHFnHALMgFIbsDuhOz.k38keIVQqz.ceqGIAx0IE1vttWNGK', 'ghjkl', 'hgjk'),
 (10, 'ghjk', 'ghjk', 'gfhjk', '$2y$10$AA2TQlaLLzanPybVy6A3huGCOqQtdkJj60Dx1nvil6zO0q2FgUe8m', 'ghjk', 'gfhjk'),
 (11, 'ghjkl', 'jkl', 'ghjkl', '$2y$10$QqoyVWdkX.jK0WMbd0iBA.Zd9z0y4n6GN67kSkl3ekoP67JhHz2hK', 'ghjkl', 'ghjkl'),
-(12, 'ghjkl', 'hjk', 'hjkl', '$2y$10$lo.pN/ocHw39kQtugH3/cuRX7x8fMj2STMKwMrO2yjXfIXTTG8a9K', 'gvhjkl', 'hjkl'),
 (13, 'fghj', 'ghjk', 'ghjk', '$2y$10$mA5bJ75HpFxW1z7DWHbApOrKCalQBV/qtck6mDul5nuwgAbL0/Qni', 'ghjk', 'ghjk'),
 (14, 'ghjk', 'hgjkl', 'vhjkl', '$2y$10$SeoeIN8HMl3EccuES7u64.6gfyuFGmfIOEtw/hKOfyjGLyQhSW8py', 'ghjkl', 'ghjkl'),
 (15, 'gjhkl', 'ghjkl', 'hjkl;ghjkl;', '$2y$10$hu4q5id8cLxH1CtcrFb7lOcaoYeHyPk1xBgjPpSvI9MJ2evXqp6/S', 'ghjkl;', 'hjkl'),
@@ -260,7 +286,23 @@ INSERT INTO `user` (`u_id`, `fname`, `lname`, `uname`, `password`, `email`, `con
 (33, 'dfad', 'adsfasdf', 'assddsdsfsasdfas', '$2y$10$b7tnTTmQr21W3kE42ibJz.Pohi/jRtEa2lVaMlztPeqTRsgkWZIOq', 'adsaf', 'sdadsf'),
 (34, 'ghjk', 'ghjk', 'ghjkghjk', '$2y$10$aKmsgaaEfa42jMHJpQzPL.s6mdT2HSZFAgVmwE6lMf0xe9zo0PhDy', 'ghjk', 'ghjk'),
 (35, 'ghjk', 'ghjk', 'ghjkghjkxfg', '$2y$10$nySQv3dihLYJM5y/mbGlsOxtzdiSiq/RDCFWp5IbBGvTuncdQ42Y6', 'ghjk', 'ghjk'),
-(36, 'ghjk', 'ghjk', 'ghjkghjkxfgfgh', '$2y$10$T6Vlu6GBeBcVw31ACV3vVOAE3A4kE45vJMfGe6WU7LEQnm/lOj8iu', 'ghjk', 'ghjk');
+(36, 'ghjk', 'ghjk', 'ghjkghjkxfgfgh', '$2y$10$T6Vlu6GBeBcVw31ACV3vVOAE3A4kE45vJMfGe6WU7LEQnm/lOj8iu', 'ghjk', 'ghjk'),
+(37, 'summer', 'hazy', 'kj', '$2y$10$V1LOZeX8dtWJbRwIv./IWu9MzFPMurQohwq7XSdNMhN/.rN.ohFwi', 'hkjl', 'kj'),
+(38, 'haze', 'sagarrrr', 'kjk', '$2y$10$dONvZ2IGYZQgtf7tIOYVBu4jjX0G7HkZaJpXOi3SOXM6xW03azlF6', 'adf', 'khk'),
+(39, 'summer', 'hazzzz', 'adlfjl', '$2y$10$klxijZnWTNN5Cf.OjjsFUeALaYJL/0ksVJDK.PYbWeb7J/BU3GjKu', 'daf', 'adfljk'),
+(40, 'asdfa', 'ljad;slfkj', 'abc', '$2y$10$RSdVPItWCf3tKuuHYZd79Oj/iz9/BRekuAQAT4VhrBc2YqQXcSF1S', 'kj;alskdfj;lk', 'jj;lkajdf;lkj'),
+(41, 'adsfa', 'lakjd;flk', 'abcd', '$2y$10$WCd3zTKYHycHT0z1QzGGJu0/WfTfOcXMygEksdN4k.fVl73hlW3ge', 'lajksdf;lkj', 'alksdf;lk'),
+(42, 'dhfakljh', 'khlkjh', 'hkjhkjh', '$2y$10$Hfk0U.T70wTjWird.vDYMuZI/84/O1zdVlnmceyS13ok.9W2UhZZK', 'kjhlkjhl', 'hlkjhlkj'),
+(43, 'arr', 'dfa', 'lakjdf;lak', '$2y$10$/KJArWKd9qBfpZW/1PzK6.pkzT5tmUx5auDRfDx0DJsGDV4dEoXGy', 'alfjalk', 'lkja;ldkfj;lkaa'),
+(44, 'daf', 'ljl', 'ljl', '$2y$10$P8XZHQVMnr9hnJZVWOBLBe980CM25AFvUOJwfbGKM8nINdKjB.CJ.', 'lkjlk', 'lkj'),
+(45, 'afa', 'lj;lkj', 'l;kj;lk', '$2y$10$z1FdnIMx.ZEJFObRW1B/EObO6tFkKR7PYMK.xJCqcvtBq46nGOfpe', 'lkj', ';lkj;lkj'),
+(46, 'adkfjalk', 'lkja;lsdkfjlk', 'lk.j;lakj', '$2y$10$omUfhgMvEm6YozrRIoU2EOp7VAqBvcQxI7OyL2eJm1Da.wutXxCVy', 'j;lkja;sldkfj', 'lkja;sdlkfj;'),
+(47, 'dsfalj', ';lkj;lkj;l', 'j;', '$2y$10$F2JVekJBLLtJBQEbpR5PFOPwDw5JlKARSKSjaJ6Gt8O.JW6pxMeSS', 'kj;lkj', ';lk.j;lk'),
+(48, 'dfa', 'lkja;lkjdff', 'kjad', '$2y$10$.1efgeVaFq0JpQprsxyTjuFZYYBdO7D.TLBCe1MMfS8KxGGcc1o.G', 'lj;lakjdsf;lkj', ';lkja;lkdsfjm;l'),
+(49, 'adf', 'ljadlkj', 'kj;kljd;lkjak', '$2y$10$LI4d6sBL53j6JlJEGgFzCuEuyfIdC0M1EPQtwdmXRY2HMel9m6QTW', 'ljk;lk', 'j;lkalkdj;'),
+(50, 'sagar', 'lamichhane', 'summerlc', '$2y$10$p0IsWnco15/zR9Cn2kuCxeE0LwxF5XkL1eU0hcQF3bs2TdQxQmEkC', 'sagarlamichhane929@gamil.com', '987876598'),
+(51, 'summer', 'haze', 'sagar', '$2y$10$Y95CB/IXIigp8n9i1pORJeYZISp9NyuHtuTNRLbMldlCJNzOuUvQa', 'sagarlamichhane@gmail.com', '98765678767887'),
+(52, 'summer', 'hazzy', 'summer', '$2y$10$q7z8wfvH.t7fylLIHrIVw.vfZdokQ1uGYTj9aH0UixFYbZok2XLOC', 'summer@gmail.com', '1111111');
 
 -- --------------------------------------------------------
 
@@ -272,6 +314,15 @@ CREATE TABLE `user_report` (
   `user_id` int(11) NOT NULL,
   `report_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `user_report`
+--
+
+INSERT INTO `user_report` (`user_id`, `report_id`) VALUES
+(50, 5),
+(52, 11),
+(52, 15);
 
 --
 -- Indexes for dumped tables
@@ -328,6 +379,12 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`u_id`);
 
 --
+-- Indexes for table `user_report`
+--
+ALTER TABLE `user_report`
+  ADD PRIMARY KEY (`report_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -335,25 +392,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `a_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `user_report`
+--
+ALTER TABLE `user_report`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables

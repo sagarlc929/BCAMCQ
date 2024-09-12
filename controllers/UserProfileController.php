@@ -36,7 +36,7 @@ class UserProfileController {
               ];
             } elseif ($this->updateProfile($currentUser, $fname, $lname, $uname, $email, $contact_no)) {
               $response = [
-                'message' => '<h4 style="text-align:center">Profile updated successfully.</h4><hr /><i>Redirect to login:</i> <a class="alert-link" href="?route=login">login page</a>',
+                'message' => '<h4 style="text-align:center">Profile updated successfully.</h4><hr />',
                 'status' => 1 // Success status code
               ];
             } else {
