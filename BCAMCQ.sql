@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 12, 2024 at 07:15 AM
+-- Generation Time: Sep 14, 2024 at 02:08 AM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.3.11
 
@@ -57,32 +57,45 @@ CREATE TABLE `question` (
   `option_C` varchar(256) DEFAULT NULL,
   `option_D` varchar(256) DEFAULT NULL,
   `answer` varchar(256) DEFAULT NULL,
-  `explanation` text DEFAULT NULL
+  `explanation` text DEFAULT NULL,
+  `year` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` (`question_id`, `description`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `explanation`) VALUES
-(213, 'What is the size of the int data type in C?', '2 bytes', 'sdfa4 bytes', '8 bytes', 'Depends on the system architecture', 'sdfa4 bytes', 'The size of int data type is 4 bytes in most systems.'),
-(214, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 5;\n    printf(\"%d\", ++i * ++i);\n    return 0;\n}', '36', '30', '42', 'Compiler Error', '42', 'The value of ++i is incremented twice before the multiplication operation.'),
-(215, 'Which operator is used to access the value at the address of a variable in C?', '*', '&', '$', '#', '&', 'The & operator is used for address-of operations in C.'),
-(216, 'What is the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 10;\n    printf(\"%d %d %d\", i++, i++, i++);\n    return 0;\n}', '10 11 12', '12 11 10', '11 12 10', 'Undefined behavior', '11 12 10', 'The order of evaluation of i++ is not defined, resulting in undefined behavior.'),
-(217, 'Which function is used to allocate memory dynamically in C?', 'malloc()', 'calloc()', 'realloc()', 'All of the above', 'All of the above', 'All three functions (malloc, calloc, realloc) are used for dynamic memory allocation.'),
-(218, 'What is the correct way to declare a pointer to an integer in C?', 'int ptr;', 'ptr int;', 'int *ptr;', 'pointer int;', 'int *ptr;', 'The correct syntax to declare a pointer to an integer is int *ptr;'),
-(219, 'What does the \'int\' keyword signify in a function declaration in C?', 'The function returns an integer value.', 'The function accepts an integer argument.', 'The function is of type integer.', 'The function is internal to the program.', 'The function returns an integer value.', 'The \'int\' keyword in a function declaration indicates that the function returns an integer value.'),
-(220, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int x = 5;\n    printf(\"%d %d %d\", x++, x++, x++);\n    return 0;\n}', '5 6 7', '7 6 5', 'Undefined behavior', 'Compiler Error', '5 6 7', 'The order of evaluation of x++ is defined in this case, resulting in the output 5 6 7.'),
-(221, 'Which of the following is a valid comment in C?', '// This is a comment', '# This is a comment', '; This is a comment', '<!-- This is a comment -->', '// This is a comment', 'In C, comments start with // for single-line comments and /* */ for multi-line comments.'),
-(222, 'What is the purpose of the sizeof operator in C?', 'To return the size of a variable or data type in bytes', 'To calculate the square root of a number', 'To convert a string to uppercase', 'To increment a variable by 1', 'To return the size of a variable or data type in bytes', 'The sizeof operator is used to determine the size of a variable or data type in bytes.'),
-(223, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int x = 10;\n    if (x == 10)\n    {\n        printf(\"x is equal to 10\");\n    }\n    else\n    {\n        printf(\"x is not equal to 10\");\n    }\n    return 0;\n}', 'x is equal to 10', 'x is not equal to 10', 'Compiler Error', 'Undefined behavior', 'x is equal to 10', 'The condition x == 10 is true, so the output will be \"x is equal to 10\".'),
-(224, 'Which of the following is the correct way to declare an array in C?', 'int array[10];', 'array int[10];', 'int *array = new int[10];', 'Array<int> array = new Array<int>(10);', 'int array[10];', 'The correct syntax to declare an array in C is int array[10];'),
-(225, 'What is the size of the int data type in C?', '2 bytes', '4 bytes', '8 bytes', 'Depends on the system architecture', '4 bytes', 'The size of int data type is 4 bytes in most systems.'),
-(229, 'fladfj', 'kklh', '', '', '', 'kklh', ''),
-(231, '', '', '', '', '', '', ''),
-(235, 'wahat is computer?', 'electoring device', 'i dont know', 'hi', 'hii', 'electoring device', 'this is the way it should work.\n'),
-(236, 'whor ', 'aere ', 'you ', 'jlajd', 'iajsdlk', 'iajsdlk', 'adjadlkf'),
-(237, 'how ', 'are ', 'you ', 'aldkjfal', 'ialjsdfilj', 'are ', 'ijklasjdf');
+INSERT INTO `question` (`question_id`, `description`, `option_A`, `option_B`, `option_C`, `option_D`, `answer`, `explanation`, `year`) VALUES
+(213, 'What is the size of the int data type in C?', '2 bytes', 'sdfa4 bytes', '8 bytes', 'Depends on the system architecture', 'sdfa4 bytes', 'The size of int data type is 4 bytes in most systems.', 0),
+(214, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 5;\n    printf(\"%d\", ++i * ++i);\n    return 0;\n}', '36', '30', '42', 'Compiler Error', '42', 'The value of ++i is incremented twice before the multiplication operation.', 0),
+(215, 'Which operator is used to access the value at the address of a variable in C?', '*', '&', '$', '#', '&', 'The & operator is used for address-of operations in C.', 0),
+(216, 'What is the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int i = 10;\n    printf(\"%d %d %d\", i++, i++, i++);\n    return 0;\n}', '10 11 12', '12 11 10', '11 12 10', 'Undefined behavior', '11 12 10', 'The order of evaluation of i++ is not defined, resulting in undefined behavior.', 0),
+(217, 'Which function is used to allocate memory dynamically in C?', 'malloc()', 'calloc()', 'realloc()', 'All of the above', 'All of the above', 'All three functions (malloc, calloc, realloc) are used for dynamic memory allocation.', 0),
+(218, 'What is the correct way to declare a pointer to an integer in C?', 'int ptr;', 'ptr int;', 'int *ptr;', 'pointer int;', 'int *ptr;', 'The correct syntax to declare a pointer to an integer is int *ptr;', 0),
+(219, 'What does the \'int\' keyword signify in a function declaration in C?', 'The function returns an integer value.', 'The function accepts an integer argument.', 'The function is of type integer.', 'The function is internal to the program.', 'The function returns an integer value.', 'The \'int\' keyword in a function declaration indicates that the function returns an integer value.', 0),
+(220, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int x = 5;\n    printf(\"%d %d %d\", x++, x++, x++);\n    return 0;\n}', '5 6 7', '7 6 5', 'Undefined behavior', 'Compiler Error', '5 6 7', 'The order of evaluation of x++ is defined in this case, resulting in the output 5 6 7.', 0),
+(221, 'Which of the following is a valid comment in C?', '// This is a comment', '# This is a comment', '; This is a comment', '<!-- This is a comment -->', '// This is a comment', 'In C, comments start with // for single-line comments and /* */ for multi-line comments.', 0),
+(222, 'What is the purpose of the sizeof operator in C?', 'To return the size of a variable or data type in bytes', 'To calculate the square root of a number', 'To convert a string to uppercase', 'To increment a variable by 1', 'To return the size of a variable or data type in bytes', 'The sizeof operator is used to determine the size of a variable or data type in bytes.', 0),
+(223, 'What will be the output of the following code snippet?\n#include <stdio.h>\nint main()\n{\n    int x = 10;\n    if (x == 10)\n    {\n        printf(\"x is equal to 10\");\n    }\n    else\n    {\n        printf(\"x is not equal to 10\");\n    }\n    return 0;\n}', 'x is equal to 10', 'x is not equal to 10', 'Compiler Error', 'Undefined behavior', 'x is equal to 10', 'The condition x == 10 is true, so the output will be \"x is equal to 10\".', 0),
+(224, 'Which of the following is the correct way to declare an array in C?', 'int array[10];', 'array int[10];', 'int *array = new int[10];', 'Array<int> array = new Array<int>(10);', 'int array[10];', 'The correct syntax to declare an array in C is int array[10];', 0),
+(225, 'What is the size of the int data type in C?', '2 bytes', '4 bytes', '8 bytes', 'Depends on the system architecture', '4 bytes', 'The size of int data type is 4 bytes in most systems.', 0),
+(229, 'fladfj', 'kklh', '', '', '', 'kklh', '', 0),
+(231, '', '', '', '', '', '', '', 0),
+(238, 'hi', 'salsdfjl', 'dfasdf`', 'dfads', 'dsaf', 'salsdfjl', 'sdfaoidufapisdfujpoa', 0),
+(246, 'ddf', 'dsf', 'dsaf', 'adsf', 'asdf', 'dsf', 'asdfa', 2018),
+(247, 'asd', 'klasdkff', 'asdf', 'asdfa', 'asdf', 'klasdkff', 'asdf', 2022),
+(248, 'daf', 'jgjh', 'jgjhg', 'jhgjg', 'jgj', 'jgjh', 'jgjg', 2023),
+(249, 'asd', 'asdf', 'asdf', 'asdf', 'asdf', 'asdf', 'fasdf', 2017),
+(250, 'hi', 'hii', 'jkk', 'kjk', 'jkkjk', 'hii', 'kk', 2017),
+(251, 'asdf', 'asdf', 'adfa', 'adfa', 'asdf', 'asdf', 'asdf', 2020),
+(252, 'fadf', 'asdf', 'adsfaadsf', 'adfafd', 'adf', 'asdf', 'adfafdafds', 2023),
+(253, 'asdfa', 'asdf', 'sdfsd', 'asdf', 'asdf', 'asdf', 'adsaf', 2020),
+(254, 'asfd', 'jhkjh', 'jhjh', 'jjh', 'jhj', 'jhkjh', 'jjhjh', 2020),
+(255, 'asdf', 'asdf', 'sdfas', 'asdf', 'asdf', 'asdf', 'asdfasd', 2020),
+(256, 'what', 'as', 'kjhjk', 'jkkjh', 'kjhkjh', 'as', 'kjhkj', 2019),
+(257, 'Any measure indicating the centre of a set of data, arranged in an increasing or decreasing order of magnitude, is called a measure of:', 'Skewness', 'Symmetry', 'Central tendency', 'Dispersion', 'Central tendency', 'Central tendency measures the typical or central value in a dataset, which is what this question is describing.', 2020),
+(258, 'Scores that differ greatly from the measures of central tendency are called:', 'Raw scores', 'The best scores', 'Extreme scores', 'Z-scores', 'Extreme scores', 'Extreme scores are those that are significantly different from the central measures, fitting the description in the question.', 2020),
+(259, 'The measure of central tendency listed below is', 'The raw score', 'The mean', 'The range', 'Standard deviation', 'The mean', 'Among the options, only the mean is a measure of central tendency. The others are either raw data or measures of dispersion.', 2020);
 
 -- --------------------------------------------------------
 
@@ -119,7 +132,14 @@ INSERT INTO `report` (`report_id`, `marks`, `subject_id`) VALUES
 (16, '0', 1),
 (17, '0', 1),
 (18, '0', 1),
-(19, '2', 1);
+(19, '2', 1),
+(20, '1', 1),
+(21, '0', 1),
+(22, '1', 1),
+(23, '1', 2),
+(24, '1', 1),
+(25, '2', 1),
+(26, '1', 4);
 
 -- --------------------------------------------------------
 
@@ -236,9 +256,21 @@ INSERT INTO `subject_question` (`subject_id`, `question_id`) VALUES
 (6, 225),
 (2, 229),
 (3, 231),
-(1, 235),
-(1, 236),
-(1, 237);
+(6, 238),
+(1, 246),
+(1, 247),
+(1, 248),
+(1, 249),
+(1, 250),
+(1, 251),
+(1, 252),
+(1, 253),
+(1, 254),
+(1, 255),
+(1, 256),
+(4, 257),
+(4, 258),
+(4, 259);
 
 -- --------------------------------------------------------
 
@@ -261,32 +293,6 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`u_id`, `fname`, `lname`, `uname`, `password`, `email`, `contact_no`) VALUES
-(10, 'ghjk', 'ghjk', 'gfhjk', '$2y$10$AA2TQlaLLzanPybVy6A3huGCOqQtdkJj60Dx1nvil6zO0q2FgUe8m', 'ghjk', 'gfhjk'),
-(11, 'ghjkl', 'jkl', 'ghjkl', '$2y$10$QqoyVWdkX.jK0WMbd0iBA.Zd9z0y4n6GN67kSkl3ekoP67JhHz2hK', 'ghjkl', 'ghjkl'),
-(13, 'fghj', 'ghjk', 'ghjk', '$2y$10$mA5bJ75HpFxW1z7DWHbApOrKCalQBV/qtck6mDul5nuwgAbL0/Qni', 'ghjk', 'ghjk'),
-(14, 'ghjk', 'hgjkl', 'vhjkl', '$2y$10$SeoeIN8HMl3EccuES7u64.6gfyuFGmfIOEtw/hKOfyjGLyQhSW8py', 'ghjkl', 'ghjkl'),
-(15, 'gjhkl', 'ghjkl', 'hjkl;ghjkl;', '$2y$10$hu4q5id8cLxH1CtcrFb7lOcaoYeHyPk1xBgjPpSvI9MJ2evXqp6/S', 'ghjkl;', 'hjkl'),
-(16, 'safa', 'hgjkl', 'ghjklghjkl', '$2y$10$/YogJKBFgJzQPMnBWdK6w.JaAB19PLl2g5UmrCk3MOjLrdhfZ0Sha', 'ghjkl', 'ghjkl'),
-(17, 'jhkl', 'ghjkl', 'hgjkl', '$2y$10$LBfGnFyCIf93vfeelp74huB.4z8tHKbF3VW/RIrSomjtivEs8.YhG', 'ghjkl', 'hgjkl'),
-(18, 'gfhjkl', 'ghjkl', 'gfhjkl', '$2y$10$YH.3tl68/hHZUaKwo0hWTutzx.trx0OY3N1DEZZFQnOG6ILT1xAt6', 'ghjkl', 'gfhjkl'),
-(19, 'sagar', 'summe', 'hjgk', '$2y$10$Tbik9iHiQ1Bf95s9cLAkY.m7iouo4srY5kWiK8hQgCFulpe5GIhji', 'hjk', 'ghjk'),
-(20, 'ghjk', 'fdghj', 'ghjkgfhjk', '$2y$10$NBsdY2o4U3MFGFm3cRMrhuNhMg1uAp1JXOzY4pQ5iZrjjopPmrPly', 'fghj', 'gfhjk'),
-(21, 'fghjkl', 'fghjkl;', 'ghjkl;', '$2y$10$9ArV/HO.WPsvvlMtMhjaYOO73Wg2ykFnGnDknFdVO4yFJEVhW0vHS', 'fghjkl;', 'gfhjkl;'),
-(22, 'fghjkl', 'ghjk', 'ghjklgfhjkl', '$2y$10$lTMbbh/TSlmwDVICoJH1RO7K6hpXRyKqyUMnAf9qInMGdj2Ggl3A.', 'ghjkl', 'ghjkl'),
-(23, 'a', 'b', 'h', '$2y$10$IAOMJweXZc6mfJpW0wUxHu0OTPuiJME9oulL/vAcUtGzlw5rdd9xu', 's', 'g'),
-(24, 'b', 'g', 'j', '$2y$10$nbrSbJwu2/gh76ejDug75OPpMd3ZjHoUH5w6e4EG6O1kZ5CaF4XCe', 'h', 'h'),
-(25, 'b', 'g', 'jg', '$2y$10$tNc1.1cWTYHhOl13sUMphudHGF5i2Ln.Humx2.T74ax1TydFy8A0O', 'h', 'h'),
-(26, 'hi', 'hi', 'hi', '$2y$10$GQ5PLj9tt0vvjT0eCW9SJe65UsowBpMUQc2XawWKa9eVJRp8I/mhO', 'hi', 'hi'),
-(27, 'i', 'hi', 'highjkl', '$2y$10$TVYI57LzZ1e00vyRN.PQXunu3ccheGUTwsRlPI0ZZicz6tXLN3dvG', 'h', 'i'),
-(28, 'fgh', 'ghjk', 'ghj', '$2y$10$jLKiBR09TsxBXAJls0ABC.gN6.mYF5Weu4jSa/5ujaSF6oItMgybK', 'ghj', 'ghjk'),
-(29, 'ghjk', 'fgh', 'ghj5678', '$2y$10$DDqoIz31C.BvJAXwNwg1seo/CQcjFXJHHyA09pRYRihadJW5PC7Au', 'ghj', 'fghj'),
-(30, 'dfad', 'adsfasdf', 'assdd', '$2y$10$YnV7jYi48L16sNAI3Shx.erjL18IAHg8YRjjpFrrzkxy5R50HaqPm', 'adsaf', 'sdadsf'),
-(31, 'dfad', 'adsfasdf', 'assdds', '$2y$10$FKJdelNXXSgk1CKGQP8p6.CauJp9sZe6C8OYL1.B8wJT0cwu8GNMW', 'adsaf', 'sdadsf'),
-(32, 'dfad', 'adsfasdf', 'assddsdsfsa', '$2y$10$8YLkhMEqFZ9GwBa1CKsJVO.RsjT/Gp6NL5OxNSF66Y1SCbXVN8hMC', 'adsaf', 'sdadsf'),
-(33, 'dfad', 'adsfasdf', 'assddsdsfsasdfas', '$2y$10$b7tnTTmQr21W3kE42ibJz.Pohi/jRtEa2lVaMlztPeqTRsgkWZIOq', 'adsaf', 'sdadsf'),
-(34, 'ghjk', 'ghjk', 'ghjkghjk', '$2y$10$aKmsgaaEfa42jMHJpQzPL.s6mdT2HSZFAgVmwE6lMf0xe9zo0PhDy', 'ghjk', 'ghjk'),
-(35, 'ghjk', 'ghjk', 'ghjkghjkxfg', '$2y$10$nySQv3dihLYJM5y/mbGlsOxtzdiSiq/RDCFWp5IbBGvTuncdQ42Y6', 'ghjk', 'ghjk'),
-(36, 'ghjk', 'ghjk', 'ghjkghjkxfgfgh', '$2y$10$T6Vlu6GBeBcVw31ACV3vVOAE3A4kE45vJMfGe6WU7LEQnm/lOj8iu', 'ghjk', 'ghjk'),
 (37, 'summer', 'hazy', 'kj', '$2y$10$V1LOZeX8dtWJbRwIv./IWu9MzFPMurQohwq7XSdNMhN/.rN.ohFwi', 'hkjl', 'kj'),
 (38, 'haze', 'sagarrrr', 'kjk', '$2y$10$dONvZ2IGYZQgtf7tIOYVBu4jjX0G7HkZaJpXOi3SOXM6xW03azlF6', 'adf', 'khk'),
 (39, 'summer', 'hazzzz', 'adlfjl', '$2y$10$klxijZnWTNN5Cf.OjjsFUeALaYJL/0ksVJDK.PYbWeb7J/BU3GjKu', 'daf', 'adfljk'),
@@ -302,7 +308,13 @@ INSERT INTO `user` (`u_id`, `fname`, `lname`, `uname`, `password`, `email`, `con
 (49, 'adf', 'ljadlkj', 'kj;kljd;lkjak', '$2y$10$LI4d6sBL53j6JlJEGgFzCuEuyfIdC0M1EPQtwdmXRY2HMel9m6QTW', 'ljk;lk', 'j;lkalkdj;'),
 (50, 'sagar', 'lamichhane', 'summerlc', '$2y$10$p0IsWnco15/zR9Cn2kuCxeE0LwxF5XkL1eU0hcQF3bs2TdQxQmEkC', 'sagarlamichhane929@gamil.com', '987876598'),
 (51, 'summer', 'haze', 'sagar', '$2y$10$Y95CB/IXIigp8n9i1pORJeYZISp9NyuHtuTNRLbMldlCJNzOuUvQa', 'sagarlamichhane@gmail.com', '98765678767887'),
-(52, 'summer', 'hazzy', 'summer', '$2y$10$q7z8wfvH.t7fylLIHrIVw.vfZdokQ1uGYTj9aH0UixFYbZok2XLOC', 'summer@gmail.com', '1111111');
+(52, 'summer', 'hazzy', 'summer', '$2y$10$q7z8wfvH.t7fylLIHrIVw.vfZdokQ1uGYTj9aH0UixFYbZok2XLOC', 'summer@gmail.com', '1111111'),
+(53, 'hi', 'asd', 'fadsfa', '$2y$10$tt7p3zn9TWJl./39Ya1wV.nZj3rAB/4x.drEfxuJvjw3icUzNld8m', 'afda@gmai.com', 'dfas'),
+(54, 'ldjfa;lsdk', 'aksjdf;lkj', 'aklsdjf;laksj', '$2y$10$XBn7l2M/4ERcg6fFgnFHXOz3sSPTgn0dCcj5oMcfSVAzfKzHz0qWe', 'swefrghjj@gmail.com', 'kls'),
+(55, 'saf', 'asd', 'saga', '$2y$10$a53d8zBbT.3kcCjwlsN0L./SkIVOYJiwz87PZeqQWjVjdR0D7WzxW', 'asdfsd@gmai.com', '98576565656'),
+(56, 'sagar', 'haze', 'summerh', '$2y$10$HKFjlPSF.tC9vUOVT1x2o.z4endQNfXUSplztYaqkACEF9sKfpyR2', 'summerhaze@gmail.com', '1234567898'),
+(57, 'asdfa', 'adfa', 'adfa', '$2y$10$TEV6h5oN5cCgE9ae.Yneq.h23F0k5VdV1TlUnTuKHVV/hhgtChEVu', 'asdf', 'adf'),
+(58, 'sdf', 'asdf', 'asdf', '$2y$10$qGbBv25sYzofv37jmePXReTKDa3/mTDiYK2JSnrIlvz/HvaFscvmC', 'asdf', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -321,8 +333,8 @@ CREATE TABLE `user_report` (
 
 INSERT INTO `user_report` (`user_id`, `report_id`) VALUES
 (50, 5),
-(52, 11),
-(52, 15);
+(52, 25),
+(52, 26);
 
 --
 -- Indexes for dumped tables
@@ -398,25 +410,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=238;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT for table `report`
 --
 ALTER TABLE `report`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `u_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `user_report`
 --
 ALTER TABLE `user_report`
-  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables
