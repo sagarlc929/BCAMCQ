@@ -40,39 +40,111 @@ function goLogin() {
   window.location.href = "?route=login";
 }
 
-
 function validateForm() {
   let isValid = true;
-  const inputs = form.querySelectorAll('input');
 
-  let password = '';
-  let confirmPassword = '';
+  // Get form fields
+  const firstName = document.getElementById('first-name').value.trim();
+  const lastName = document.getElementById('last-name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const contactNo = document.getElementById('contact-no').value.trim();
+  const username = document.getElementById('user-name').value.trim();
+  const password = document.getElementById('new-password').value.trim();
+  const confirmPassword = document.getElementById('confirm-password').value.trim();
+  const termsChecked = document.getElementById('terms-and-conditions').checked;
 
-  inputs.forEach(input => {
-    if (input.type !== 'submit' && input.type !== 'checkbox') {
-      if (!input.value.trim()) {
-        isValid = false;
-        showMessage(`Please fill in ${input.name.replace(/-/g, ' ')}`);
-      }
-
-      if (input.name === 'new-password') {
-        password = input.value.trim();
-      }
-
-      if (input.name === 'confirm-password') {
-        confirmPassword = input.value.trim();
-      }
-    }
-  });
-
-  if (password !== confirmPassword) {
+  // Validate first name
+  if (!firstName) {
+    showMessage('Please enter your first name');
     isValid = false;
-    showMessage('Passwords do not match');
+    return false; // Stop further validation
   }
 
-  return isValid;
+  // Validate last name
+  if (!lastName) {
+    showMessage('Please enter your last name');
+    isValid = false;
+    return false;
+  }
+
+  // Validate email
+  if (!email) {
+    showMessage('Please enter your email');
+    isValid = false;
+    return false;
+  } else if (!validateEmail(email)) {
+    showMessage('Please enter a valid email address');
+    isValid = false;
+    return false;
+  }
+
+  // Validate contact number
+  if (!contactNo) {
+    showMessage('Please enter your contact number');
+    isValid = false;
+    return false;
+  } else if (!validatePhoneNumber(contactNo)) {
+    showMessage('Please enter a valid 10-digit contact number');
+    isValid = false;
+    return false;
+  }
+
+  // Validate username
+  if (!username) {
+    showMessage('Please enter a username');
+    isValid = false;
+    return false;
+  }
+
+  // Validate password
+  if (!password) {
+    showMessage('Please create a password');
+    isValid = false;
+    return false;
+  } else if (!validatePassword(password)) {
+    showMessage('Password must be at least 8 characters long, and include at least one number or special character.');
+    isValid = false;
+    return false;
+  }
+
+  // Validate confirm password
+  if (!confirmPassword) {
+    showMessage('Please confirm your password');
+    isValid = false;
+    return false;
+  } else if (password !== confirmPassword) {
+    showMessage('Passwords do not match');
+    isValid = false;
+    return false;
+  }
+
+  // Validate terms and conditions checkbox
+  if (!termsChecked) {
+    showMessage('You must accept the terms and conditions');
+    isValid = false;
+    return false;
+  }
+
+  return isValid; // Return true if all validations pass
 }
-//TODO: create the message function which takes parameter for time and alert type
+
+// Helper function for validating email
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+// Helper function for validating password
+function validatePassword(password) {
+  const re = /^(?=.*[A-Za-z])(?=.*\d|.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return re.test(password);
+}
+
+// Helper function for validating phone number
+function validatePhoneNumber(phoneNumber) {
+  const re = /^\d{10}$/;
+  return re.test(phoneNumber);
+}
 
 function showMessage(message) {
 

@@ -93,7 +93,8 @@ class QuestionManageController
           $optionD = $_POST['optionD'];
           $answer = $_POST['answer'];
           $explanation = $_POST['explanation'];
-          $response = $this->updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation);
+          $year = $_POST['year'];
+          $response = $this->updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$year);
           header('Content-Type: application/json');
           echo json_encode($response);
           exit;
@@ -107,9 +108,10 @@ class QuestionManageController
           $optionD = $_POST['optionD'];
           $answer = $_POST['answer'];
           $explanation = $_POST['explanation'];
+          $year = $_POST['year'];
           $semesterSelect = $_POST['semesterSelect'];
           $subjectSelect = $_POST['subjectSelect'];
-          $response = $this->addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect);
+          $response = $this->addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect,$year);
           header('Content-Type: application/json');
           echo json_encode($response);
           exit;
@@ -154,12 +156,12 @@ class QuestionManageController
     return $this->questionModel->deleteQuestion($questionId);
   }
 
-  private function addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect){
-    return $this->questionModel->addQuestion($description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation, $subjectSelect);
+  private function addQuestion($description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation,$subjectSelect,$year){
+    return $this->questionModel->addQuestion($description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation, $subjectSelect, $year);
   }
 
-  private function updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation){
-    return $this->questionModel->updateQuestion($id,$description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation);
+  private function updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation, $year){
+    return $this->questionModel->updateQuestion($id,$description, $optionA, $optionB, $optionC,$optionD,$answer, $explanation,$year);
   }
 
   private function getQuestions($subjectSelected){

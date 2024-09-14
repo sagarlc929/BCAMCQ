@@ -1,23 +1,25 @@
 
-*{box-sizing: border-box;}
+* {
+  box-sizing: border-box;
+}
+
 body {
   width: 100%;
   height: 100vh;
   margin: 0;
-  background-color: #f4f4f4; /* Change to a lighter background color */
-  color: #333; /* Change to a darker text color for better readability */
-  font-family: Arial, sans-serif; /* Use a commonly available font */
+  background-color: #f4f4f4;
+  color: #333;
+  font-family: Arial, sans-serif;
   font-size: 16px;
 }
 
 h1,
 p {
-  margin: 1em auto;
   text-align: center;
 }
 
 .form-container {
-  max-width: 400px; /* Adjusted max-width for better responsiveness */
+  max-width: 900px; /* Adjust the max-width for wide displays */
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
@@ -27,8 +29,8 @@ p {
 
 fieldset {
   border: none;
-  padding: 2rem 0;
-  border-bottom: 3px solid #ccc; /* Lighter border color for consistency */
+  padding: 1rem 0;
+  border-bottom: 3px solid #ccc;
 }
 
 label {
@@ -39,16 +41,18 @@ label {
 input,
 textarea,
 select {
-  margin: 10px 0 0 0;
-  width: 100%;
-  min-height: 2em;
+width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 input,
 textarea {
-  background-color: #f9f9f9; /* Lighter background color for input fields */
-  border: 1px solid #ccc; /* Lighter border color for input fields */
-  color: #333; /* Darker text color for input fields */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  color: #333;
 }
 
 .inline {
@@ -59,9 +63,9 @@ textarea {
 
 #submit {
   display: block;
-  width: 100%; /* Full width button */
+  width: 100%;
   margin: 1em auto;
-  height: 2em;
+  height: 2.5em;
   font-size: 1.1rem;
   background-color: #333;
   color: #fff;
@@ -70,7 +74,9 @@ textarea {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+#submit:hover {
+  background-color: #555;
+}
 input[type="file"] {
   padding: 1px 2px;
 }
@@ -79,3 +85,37 @@ input[type="file"] {
   display: inline;
 }
 
+/* Responsive Design */
+@media screen and (min-width: 768px) {
+  .form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns for wide screens */
+    column-gap: 20px;
+  }
+  .flex-sidebar{
+    display:block;
+  }
+
+  fieldset {
+    border-bottom: none; /* Remove bottom border in two-column layout */
+  }
+
+  label {
+    margin-bottom: 15px;
+  }
+
+  button {
+    grid-column: span 2; /* Make the button span across both columns */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form-container {
+    display: block; /* Stack fields in a single column for small screens */
+  }
+  
+
+  header {
+    display: block; /* Ensure the header is shown on small screens */
+  }
+}

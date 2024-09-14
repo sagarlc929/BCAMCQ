@@ -1,4 +1,3 @@
-
 <?php
 // Initialize session and error reporting
 //session_start();
@@ -15,7 +14,8 @@ $route = isset($_GET["route"]) ? $_GET["route"] : "home";
 switch ($route) {
 case "home":
   // Display the home page
-  include "views/home.php";
+//  include "views/home.php";
+require_once "controllers/HomePageController.php";
   break;
 
 case "login":
@@ -79,6 +79,21 @@ case "quiz":
 //  $quizController->displayQuizPage();
   break;
 
+ case "question_info":
+
+  session_start();
+  if (!isset($_SESSION['user_authenticated']) || $_SESSION['user_authenticated'] !== true) {
+    header('Location: login.php');
+    exit;
+  }
+
+  // Include the QuizController
+  require_once "controllers/QuestionInfoController.php";
+ // $quizController = new QuizController();
+//  $quizController->displayQuizPage();
+  break; 
+
+
 case "login_admin":
 
   require_once "controllers/AdminLoginController.php";
@@ -105,9 +120,15 @@ case "question_manage":
   }
   require_once "controllers/QuestionManageController.php";
   break;
+
 case "logout":
   require_once "controllers/LogoutController.php";
   break;
+case "about":
+  require_once "about.php";
+  break;
+
+
 default:
   // Handle 404 - Page Not Found
   http_response_code(404);

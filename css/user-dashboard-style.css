@@ -38,15 +38,18 @@ box-sizing: border-box;
 }
 
 /* Dropdown link styles */
-.dropdown-content a {
+.dropdown-content button {
   color: #333; /* Darker text color */
   padding: 10px;
+  width: 100%;
+  border: none; 
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd; /* Lighter hover color */
+.dropdown-content button:hover {
+  background-color: #cddcf8; /* Lighter hover color */
+  color:black;
 }
 
 /* Show dropdown content */
@@ -81,3 +84,97 @@ box-sizing: border-box;
 display: grid;
   grid-template-columns: auto auto auto;
 }
+
+/* question year and number popup */
+/* Simple Overlay */
+.simple-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it stays on top */
+}
+
+/* Popup Box */
+.simple-popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+}
+
+/* Close Button */
+.simple-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Headings */
+.simple-popup h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* Button Styles */
+.simple-buttons {
+    margin-top: 20px;
+}
+
+.simple-popup button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.simple-popup .simple-proceed {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.simple-popup .simple-proceed:hover {
+    background-color: #45a049;
+}
+
+.simple-popup .simple-cancel {
+    background-color: #f44336;
+    color: white;
+}
+
+.simple-popup .simple-cancel:hover {
+    background-color: #e41f1f;
+}
+
+/* Input Field */
+.simple-popup input[type="number"],
+.simple-popup select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Form Label */
+.simple-popup label {
+    font-size: 1rem;
+    color: #333;
+}
+

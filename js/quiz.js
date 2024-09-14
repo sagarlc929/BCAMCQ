@@ -213,7 +213,7 @@ function saveToReport() {
 		}
 	};
 	// Use the POST method and set the appropriate content type
-	xhttp.open("POST", "?route=quiz");
+	xhttp.open("POST", "?route=report");
 	xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	// Send the request with the questionId as data
 	let data = `action=set_report&subject_id=${encodeURIComponent(

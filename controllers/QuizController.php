@@ -1,105 +1,93 @@
-
 <?php
 include_once 'models/QuizModel.php';
-include_once 'models/UserReportModel.php';
+// include_once 'models/UserReportModel.php';
 
-$quizController  = new QuizController;
-
-if (isset($_POST['action'])) {
-  $quizController->processQuiz();
-} else {
-  $quizController->displayQuiz();
-}
+$quizController = new QuizController();
+$quizController->processQuiz();
 
 class QuizController {
-  private $quizModel, $userReportModel;
+    private $quizModel;
+    // private $userReportModel;
 
-  public function __construct(){
-    $this->quizModel = new QuizModel();
-    $this->userReportModel = new UserReportModel();
-  }
-    public function displayQuiz() {
-        // Fetch semester and subject values from the URL
-      $semester = isset($_GET['sem']) ? $_GET['sem'] : '';
-       $subject = isset($_GET['subject']) ? $_GET['subject'] : '';
-        
-        /*$quizModel = new QuizModel();*/
-        $response = $this->quizModel->getQuestions($semester, $subject);
-        $subjectId = $response['subject_id'];
-        $questions = $response['questions'];
-        
-        // Format questions into the desired structure
-        $formattedQuestions = [];
-        foreach ($questions as $question) {
-            $formattedQuestion = [
-                'description' => $question['description'],
-                'options' => [$question['option_A'], $question['option_B'], $question['option_C'], $question['option_D']], // Corrected syntax
-                'answer' => $question['answer'],
-                'explanation' => $question['explanation']
-            ];
-            $formattedQuestions[] = $formattedQuestion;
-        }
-               include 'views/quiz/quiz.php';
+    public function __construct() {
+        $this->quizModel = new QuizModel();
+        // $this->userReportModel = new UserReportModel();
     }
 
-  public function processQuiz()
-  {
-     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      // Check if the action parameter is provided in the POST data
-      if (isset($_POST['action'])) {
-        $action = $_POST['action'];
-
-        // Handle the action based on the value of the 'action' parameter
-        switch ($action) {
-        case 'set_report':
-
-          $userId = $_SESSION['user_id'];
-          $marks = $_POST['marks'];
-          $subjectId = $_POST['subject_id'];
-          $response = $this->addReportToModel($userId, $marks, $subjectId);
-          //$response = $this->getReports($userId);
-          // $response = ['status'=>1,
-          //   'message'=>"php get it ",
-          //   'marks' => $marks,
-          //   'subject_id' => $subjectId
-          // ];
-          header('Content-Type: application/json');
-          echo json_encode($response);
-          exit;
-          break;
-      //xhttp.send(`action=delete_report&report_id=${reportId}`);
-
-      //TODO: Move this to  UserReportController.php
-        case 'delete_report':
-          $reportId = $_POST['report_id'];
-          $deleted = $this->userDashboardModel->deleteReportById($reportId);
-
-          if ($deleted) {
-            $response['status'] = 1;
-            $response['message'] = "Report deleted successfully.";
-          } else {
-            $response['status'] = 0;
-            $response['message'] = "Failed to delete report.";
-          }
-          echo json_encode($response);
-          exit;
-          break;
-        }
-      }
+   public function processQuiz() {
+    // Ensure `type` is set and valid
+    if (!isset($_GET['type'])) {
+        echo 'Error: Missing type parameter';
+        return;
     }
-  }
-  private function getReports($userId){
 
-    return $this->userDashboardModel->getReports($userId);
-  }
+    $type = $_GET['type'];
+    $subject = isset($_GET['subject']) ? $_GET['subject'] : ''; // Ensure subject is provided
+    $formattedQuestions = [];
+    $subjectId = null; // Initialize subjectId
+    $subjectName = $_GET['subject'];
+    $subjectId = $this->quizModel->getSubjectId($subject);
 
-   private function deleteReportById($reportId){
+    $semesterName = $this->quizModel->getSemesterFromSubject($subject);
+    if ($type === 'regular') {
+        $num = isset($_GET['number']) ? intval($_GET['number']) : 10;
+        if ($num > 0) {
+            $response = $this->getQuestionsReg($subject, $num);
+            $questions = $response['questions'];
+            //$subjectId = $response['subject_id']; // Get subjectId from response
+            
+            foreach ($questions as $question) {
+                $formattedQuestion = [
+                    'description' => $question['description'],
+                    'options' => [$question['option_A'], $question['option_B'], $question['option_C'], $question['option_D']],
+                    'answer' => $question['answer'],
+                    'explanation' => $question['explanation']
+                ];
+                $formattedQuestions[] = $formattedQuestion;
+            }
 
-    return $this->userDashboardModel->deleteReportById($reportId);
-  }
-  private function addReportToModel($userId, $marks, $subjectId){
-    return $this->userReportModel->addReportToModel($userId, $marks, $subjectId);
-  }
-  
+            // Include the view file for displaying questions
+            include 'views/quiz/quiz.php';
+        } else {
+            echo 'Error: Invalid number of questions';
+        }
+    } else if ($type === 'past') {
+        $year = isset($_GET['year']) ? $_GET['year'] : '';
+
+        if ($year) {
+            $response = $this->getQuestionsPas($subject, $year);
+            $questions = $response['questions'];
+            //$subjectId = $response['subject_id']; // Get subjectId from response
+
+            foreach ($questions as $question) {
+                $formattedQuestion = [
+                    'description' => $question['description'],
+                    'options' => [$question['option_A'], $question['option_B'], $question['option_C'], $question['option_D']],
+                    'answer' => $question['answer'],
+                    'explanation' => $question['explanation']
+                ];
+                $formattedQuestions[] = $formattedQuestion;
+            }
+
+            // Include the view file for displaying questions
+            include 'views/quiz/quiz.php';
+        } else {
+            echo 'Error: Year parameter missing';
+        }
+    } else {
+        echo 'Error: Invalid type parameter';
+    }
+}
+
+    // Private function to get regular questions
+    private function getQuestionsReg($subject, $num) {
+        return $this->quizModel->getQuestionsRegModel($subject, $num);
+    }
+
+    // Private function to get past questions
+    private function getQuestionsPas($subject, $year) {
+        return $this->quizModel->getQuestionsPasModel($subject, $year);
+    }
 }
 ?>
+

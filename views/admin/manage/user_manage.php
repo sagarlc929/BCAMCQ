@@ -1,26 +1,43 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Management</title>
+  <title>Users Manage</title>
   <link rel="stylesheet" href="css/quiz-style.css">
-  <link rel="stylesheet" href="css/alert.css">
   <link rel="stylesheet" href="css/respon-nav.css">
-  <!-- Add your CSS styles or include external stylesheets here -->
+  <link rel="stylesheet" href="css/alert.css">
+  <link rel="stylesheet" href="css/popup-box.css">
+  <link rel="stylesheet" href="css/manage.css">
+  <!-- Font Awesome CSS for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-
 <body>
-      <div class = "slidebar">
-      <a class="" href="?route=home">Home</a>
-      <a class="active"href="?route=user_manage">Manage Users</a>
-      <a class=""href="?route=question_manage">Manage Questions</a>
-      <a class="split" href="#help">Help</a>
+
+  <div class="slidebar flex-sidebar">
+ <div>
+      <a href="?route=home"><i class="fas fa-home"></i> Home</a>
+      <a class="active" href="?route=user_manage"><i class="fas fa-users"></i> Users Manage</a>
+<a href="?route=question_manage" style="display: flex; gap: 5px;">
+  <i class="fas fa-question-circle"></i>
+  <p>Questions Manage</p> <!-- Properly closed the <p> tag -->
+</a>
     </div>
+    <div>
+<a href="?route=logout" onclick="customConfirm('Are you sure you want to log out?', function(result) {
+    if (result) {
+        window.location.href = '?route=logout'; // Proceed with logout
+    }
+}); return false;">
+    <i class="fas fa-sign-out-alt"></i> Log Out
+</a>
+
+    </div>
+  </div>
+</div>
   <div class="container content">
-  <h1>User Management</h1>
+  <h1>User Manage</h1>
     <!-- Add a table to display user data -->
     <button type="button" class="add"  style ="display:block;"id="add-user">Add</button>
     <div class="table-container-user">
@@ -63,26 +80,43 @@
 
 
 <div id="popupOverlay" class="overlay-container">
-  <div class="popup-box">
-    <h2 id="popup-title">Popup Title</h2>
+ 
+<div class="popup-box">
+  <h2 id="popup-title">Add New User</h2>
+  
+  <!-- Multi-column layout -->
+  <div class="popup-content">
+    <div class="column">
+      <label for="first-name">First Name:</label>
+      <input type="text" id="first-name" name="first-name" required="">
 
-    <label for="first-name">First Name:</label>
-    <input type="text" id="first-name" name="first-name" required>
-    <label for="last-name">Last Name:</label>
-    <input type="text" id="last-name" name="last-name" required>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <label for="contact-no">Contact Number:</label>
-    <input type="tel" id="contact-no" name="contact-no" required>
-    <label for="user-name">User Name:</label>
-    <input type="text" id="user-name" name="user-name" required>
-    <label for="new-password">New Password:</label>
-    <input type="password" id="new-password" name="new-password" required>
-    <label for="confirm-password">Confirm New Password:</label>
-    <input type="password" id="confirm-password" name="confirm-password" required>
-    <button id="btn-proceed" onclick="addUser()">Button Proceed</button>
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="last-name" name="last-name" required="">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required="">
+    </div>
+
+    <div class="column">
+      <label for="contact-no">Contact Number:</label>
+      <input type="tel" id="contact-no" name="contact-no" required="">
+
+      <label for="user-name">User Name:</label>
+      <input type="text" id="user-name" name="user-name" required="">
+
+      <label for="new-password">New Password:</label>
+      <input type="password" id="new-password" name="new-password" required="">
+      <label for="confirm-password">Confirm New Password:</label>
+      <input type="password" id="confirm-password" name="confirm-password" required="">
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="popup-buttons">
+    <button id="btn-proceed" onclick="addUser()">Add User</button>
     <button class="btn-close-popup" onclick="togglePopup()">Close</button>
   </div>
+</div>
 </div>
 
 <div class="alert" id="message"></div>

@@ -93,7 +93,7 @@ class QuestionManageModel {
     }
 
     // query to fetch questions from the database
-    $query = "SELECT question.question_id, question.description, question.option_A, question.option_B, question.option_C, question.option_D, question.answer, question.explanation 
+    $query = "SELECT question.question_id, question.description, question.option_A, question.option_B, question.option_C, question.option_D, question.answer, question.explanation, question.year 
       FROM question
       INNER JOIN subject_question ON question.question_id = subject_question.question_id
       INNER JOIN subject ON subject_question.subject_id = subject.subject_id 
@@ -123,7 +123,7 @@ class QuestionManageModel {
     return $questions;
   }
 
-  public function addQuestion($description, $optionA, $optionB, $optionC,$optionD, $answer, $explanation, $subjectSelect) {
+  public function addQuestion($description, $optionA, $optionB, $optionC,$optionD, $answer, $explanation, $subjectSelect,$year) {
 
     $query = "SELECT subject_id FROM subject WHERE subject_name=?";
     $stmt = $this->conn->prepare($query);
@@ -146,15 +146,15 @@ class QuestionManageModel {
       return ['status' => false, 'message' => 'Subject not found.'];
     }
 
-    $query = "INSERT INTO question (description, option_A, option_B, option_C, option_D, answer, explanation)
-      VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO question (description, option_A, option_B, option_C, option_D, answer, explanation, year)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $this->conn->prepare($query);
 
     if (!$stmt) {
       return ['status' => false, 'message' => 'Failed to prepare the statement.'];
     }
 
-    $stmt->bind_param('sssssss', $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation);
+    $stmt->bind_param('sssssssi', $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation, $year);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
@@ -187,16 +187,16 @@ class QuestionManageModel {
   //$response = $this->updateQuestion($id,$description,$optionA,$optionB,$optionC,$optionD,$answer,$explanation);
  
 
-public function updateQuestion($id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation) {
+public function updateQuestion($id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation, $year) {
   // Query to check if the data is the same as the current data
-  $checkQuery = "SELECT * FROM question WHERE question_id=? AND description=? AND option_A=? AND option_B=? AND option_C=? AND option_D=? AND answer=? AND explanation=?";
+  $checkQuery = "SELECT * FROM question WHERE question_id=? AND description=? AND option_A=? AND option_B=? AND option_C=? AND option_D=? AND answer=? AND explanation=? AND year=?";
   $checkStmt = $this->conn->prepare($checkQuery);
 
   if (!$checkStmt) {
     return ['status' => false, 'message' => 'Failed to prepare the statement for data check.'];
   }
 
-  $checkStmt->bind_param('isssssss', $id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation);
+  $checkStmt->bind_param('isssssssi', $id, $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation, $year);
   $checkStmt->execute();
   $checkStmt->store_result();
 
@@ -208,14 +208,14 @@ public function updateQuestion($id, $description, $optionA, $optionB, $optionC, 
   $checkStmt->close();
 
   // Update the question in the question table
-  $query = "UPDATE question SET description=?, option_A=?, option_B=?, option_C=?, option_D=?, answer=?, explanation=? WHERE question_id=?";
+  $query = "UPDATE question SET description=?, option_A=?, option_B=?, option_C=?, option_D=?, answer=?, explanation=?, year=? WHERE question_id=?";
   $stmt = $this->conn->prepare($query);
 
   if (!$stmt) {
     return ['status' => false, 'message' => 'Failed to prepare the statement for question update.'];
   }
 
-  $stmt->bind_param('sssssssi', $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation, $id);
+  $stmt->bind_param('sssssssii', $description, $optionA, $optionB, $optionC, $optionD, $answer, $explanation,$year ,$id);
   $stmt->execute();
 
   if ($stmt->affected_rows > 0) {

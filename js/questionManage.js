@@ -1,6 +1,17 @@
 //var allQuestion = <?php echo json_encode($allQuestion); ?>;
 //generateTable(allQuestion); //questions.innerHTML = generateTable(allQuestion);
+document.addEventListener("DOMContentLoaded", function() {
+    const currentYear = new Date().getFullYear();
+    const startYear = 2016;
+    const select = document.getElementById('year');
 
+    for (let year = startYear; year <= currentYear; year++) {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      select.appendChild(option);
+    }
+  });
 function generateTable(data) {
   if(data.status == false){
   } else {
@@ -19,6 +30,7 @@ function generateTable(data) {
 <td>${item.option_D}</td>
 <td>${item.answer}</td>
 <td>${item.explanation}</td>
+<td>${item.year}</td>
 <td class="table-controls">
   <button class="deleteBtn" type="button" data-question-id="${item.question_id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
   <button class="modifyBtn" type="button" data-question-id="${item.question_id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
@@ -145,78 +157,102 @@ subjectSelectOption.addEventListener('change',()=>{
   xhttp.send(data);
 });
 
-
 function addQuestion() {
   const addDesc = document.getElementById('description').value;
   const addOptA = document.getElementById('optionA').value;
   const addOptB = document.getElementById('optionB').value;
   const addOptC = document.getElementById('optionC').value;
   const addOptD = document.getElementById('optionD').value;
-  var addAnsw;
+  let addAnsw;
   const addExpl = document.getElementById('explanation').value;
+  const addYear = document.getElementById('year').value;
   const addSeme = document.getElementById('semesterSelect').value;
   const addSubj = document.getElementById('subjectSelect').value;
-  var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
+  const radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
 
+  // Get the selected radio button value
   radioButtons.forEach(function(radioButton) {
     if (radioButton.checked) {
-      var selectedId = radioButton.id;
-      var lastChar = selectedId.charAt(selectedId.length - 1);
-      addAnsw = document.getElementById("option"+lastChar).value;
+      const selectedId = radioButton.id;
+      const lastChar = selectedId.charAt(selectedId.length - 1);
+      addAnsw = document.getElementById("option" + lastChar).value;
     }
   });
 
-  const messageDiv = document.getElementById('message');
+  const messageDiv = document.getElementById('message'); // Only declare once here
   const xhttp = new XMLHttpRequest();
 
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText); // Check if the response is received properly
       const responseObject = JSON.parse(this.responseText);
-      messageDiv.innerText = responseObject.message; // Set inner HTML
+      messageDiv.innerText = responseObject.message;
       messageDiv.className = 'alert'; // Reset class to 'alert'
-      messageDiv.classList.add("show"); 
+      messageDiv.classList.add("show");
 
-      if (responseObject.status == true) {
+      if (responseObject.status == true || responseObject.status == 1) { // Make status check consistent
         messageDiv.classList.add("alert-success");
+        
+        // Clear the input fields after successful addition
         document.getElementById('description').value = "";
         document.getElementById('optionA').value = "";
         document.getElementById('optionB').value = "";
         document.getElementById('optionC').value = "";
         document.getElementById('optionD').value = "";
+        document.getElementById('year').value = "0";
         document.getElementById('explanation').value = "";
 
+        // Create a new row with the added question
+        const tableBody = document.getElementById('tableBody'); // Ensure this exists in the DOM
         const newRow = document.createElement("tr");
         newRow.id = `row-${responseObject.id}`;
-        newRow.innerHTML = `<td>${responseObject.id}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td>
-          <button class="deleteBtn" type="button" data-question-id="${responseObject.id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
-          <button class="modifyBtn" type="button" data-question-id="${responseObject.id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
-        `;
+        newRow.innerHTML = `
+          <td>${responseObject.id}</td>
+          <td>${addDesc}</td>
+          <td>${addOptA}</td>
+          <td>${addOptB}</td>
+          <td>${addOptC}</td>
+          <td>${addOptD}</td>
+          <td>${addAnsw}</td>
+          <td>${addExpl}</td>
+          <td>${addYear}</td>
+          <td>
+            <button class="deleteBtn" type="button" data-question-id="${responseObject.id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
+            <button class="modifyBtn" type="button" data-question-id="${responseObject.id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
+          </td>`;
         tableBody.appendChild(newRow);
-        if (document.querySelector("#no-qn-mes-row")) {
-          document.querySelector("#no-qn-mes-row").remove();
+
+        // If the "no questions" message is present, remove it
+        const noQuestionRow = document.querySelector("#no-qn-mes-row");
+        if (noQuestionRow) {
+          noQuestionRow.remove();
         }
+
+        // Hide the alert after 3 seconds
         setTimeout(() => {
-          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+          messageDiv.classList.remove("show");
         }, 3000);
 
       } else {
         messageDiv.classList.add("alert-danger");
         setTimeout(() => {
-          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
-        }, 5000); // 3 seconds
+          messageDiv.classList.remove("show");
+        }, 5000); // Show alert for 5 seconds if there's an error
       }
     }
   };
 
-  // Use the POST method and set the appropriate content type
+  // Use POST method and set content type
   xhttp.open("POST", "?route=question_manage");
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  // Send the request with the questionId as data
-  let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
+  // Send the form data
+  let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&year=${encodeURIComponent(addYear)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
   xhttp.send(data);
 }
 
+
+/*
 function deleteQuestion(questionId){
   customConfirm(`Are you sure you want to delete this question?i.e:${questionId}`, function(result) {
     if (result) {
@@ -273,6 +309,85 @@ function deleteQuestion(questionId){
     }
   });
 }
+*/
+function addQuestion() {
+  const addDesc = document.getElementById('description').value;
+  const addOptA = document.getElementById('optionA').value;
+  const addOptB = document.getElementById('optionB').value;
+  const addOptC = document.getElementById('optionC').value;
+  const addOptD = document.getElementById('optionD').value;
+  var addAnsw;
+  const addExpl = document.getElementById('explanation').value;
+  const addYear = document.getElementById('year').value;
+  const addSeme = document.getElementById('semesterSelect').value;
+  const addSubj = document.getElementById('subjectSelect').value;
+  var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
+
+  radioButtons.forEach(function(radioButton) {
+    if (radioButton.checked) {
+      var selectedId = radioButton.id;
+      var lastChar = selectedId.charAt(selectedId.length - 1);
+      addAnsw = document.getElementById("option"+lastChar).value;
+    }
+  });
+
+  const messageDiv = document.getElementById('message');
+  const xhttp = new XMLHttpRequest();
+
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+      const responseObject = JSON.parse(this.responseText);
+
+      document.getElementById("message").innerText = responseObject.message;
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerText = responseObject.message; // Set inner HTML
+      messageDiv.className = 'alert'; // Reset class to 'alert'
+      messageDiv.classList.add("show"); 
+
+      if (responseObject.status == true) {
+        messageDiv.classList.add("alert-success");
+        document.getElementById('description').value = "";
+        document.getElementById('optionA').value = "";
+        document.getElementById('optionB').value = "";
+        document.getElementById('optionC').value = "";
+        document.getElementById('optionD').value = "";
+        document.getElementById('year').value = "0";
+        document.getElementById('explanation').value = "";
+
+        const newRow = document.createElement("tr");
+        newRow.id = `row-${responseObject.id}`;
+        newRow.innerHTML = `<td>${responseObject.id}</td><td>${addDesc}</td><td>${addOptA}</td><td>${addOptB}</td><td>${addOptC}</td><td>${addOptD}</td><td>${addAnsw}</td><td>${addExpl}</td><td>${addYear}</td><td>
+          <button class="deleteBtn" type="button" data-question-id="${responseObject.id}" onclick="deleteQuestion(this.getAttribute('data-question-id'))">DELETE</button>
+          <button class="modifyBtn" type="button" data-question-id="${responseObject.id}" onclick="modifyQuestion(this.getAttribute('data-question-id'))">MODIFY</button>
+          </td>
+        `;
+        tableBody.appendChild(newRow);
+        if (document.querySelector("#no-qn-mes-row")) {
+          document.querySelector("#no-qn-mes-row").remove();
+        }
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 3000);
+
+      } else {
+        messageDiv.classList.add("alert-danger");
+        setTimeout(() => {
+          messageDiv.classList.remove("show"); // Remove "show" class to trigger fade-out
+        }, 5000); // 3 seconds
+      }
+    }
+  };
+
+  // Use the POST method and set the appropriate content type
+  xhttp.open("POST", "?route=question_manage");
+  xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  // Send the request with the questionId as data
+  let data = `action=addNewQuestion&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&year=${encodeURIComponent(addYear)}&semesterSelect=${encodeURIComponent(addSeme)}&subjectSelect=${encodeURIComponent(addSubj)}`;
+  xhttp.send(data);
+}
+
 
 function modifyQuestion(questionId){
   /*
@@ -292,7 +407,7 @@ function modifyQuestion(questionId){
   if (row) {
     const cells = row.getElementsByTagName('td');
     const rowData = [];
-    for (let i = 0; i <= 7; i++) {
+    for (let i = 0; i <= 8; i++) {
       rowData.push(cells[i].innerText);
     }
     document.getElementById('description').value = rowData[1];
@@ -301,6 +416,7 @@ function modifyQuestion(questionId){
     document.getElementById('optionC').value = rowData[4];
     document.getElementById('optionD').value = rowData[5];
     document.getElementById('explanation').value = rowData[7];
+    document.getElementById('year').value = rowData[8];
     for(let i = 2; i <=5; i++){
       if(rowData[6] === rowData[i]){
         document.getElementById(`radOpt-${String.fromCharCode(i + 63)}`).checked = true;
@@ -324,6 +440,7 @@ function updateQuestionAjax (questionId){
   const addOptD = document.getElementById('optionD').value;
   var addAnsw;
   const addExpl = document.getElementById('explanation').value;
+  const addYear = document.getElementById('year').value;
   const addSeme = document.getElementById('semesterSelect').value;
   const addSubj = document.getElementById('subjectSelect').value;
   var radioButtons = document.querySelectorAll('input[type="radio"][name="opt-rad"]');
@@ -355,6 +472,7 @@ function updateQuestionAjax (questionId){
         document.getElementById('optionC').value = "";
         document.getElementById('optionD').value = "";
         document.getElementById('explanation').value = "";
+        document.getElementById('year').value = "0";
 
         const row = document.getElementById(`row-${questionId}`);
         if(row){
@@ -366,6 +484,7 @@ function updateQuestionAjax (questionId){
           cells[5].innerText = addOptD;
           cells[6].innerText = addAnsw;
           cells[7].innerText = addExpl;
+          cells[8].innerText = addYear;
         }
 
         document.querySelector('.btn-close-popup').click();
@@ -386,7 +505,7 @@ function updateQuestionAjax (questionId){
   xhttp.open("POST", "?route=question_manage");
   xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-  let data = `action=updateQuestion&id=${encodeURIComponent(questionId)}&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}`;
+  let data = `action=updateQuestion&id=${encodeURIComponent(questionId)}&description=${encodeURIComponent(addDesc)}&optionA=${encodeURIComponent(addOptA)}&optionB=${encodeURIComponent(addOptB)}&optionC=${encodeURIComponent(addOptC)}&optionD=${encodeURIComponent(addOptD)}&answer=${encodeURIComponent(addAnsw)}&explanation=${encodeURIComponent(addExpl)}&year=${encodeURIComponent(addYear)}`;
   xhttp.send(data);
 }
 
@@ -466,3 +585,60 @@ function customConfirm(message, callback) {
   // Set focus on the OK button
   okButton.focus();
 }
+function deleteQuestion(questionId){
+  customConfirm(`Are you sure you want to delete this question? i.e: ${questionId}`, function(result) {
+    if (result) {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          const responseObject = JSON.parse(this.responseText);
+          const messageDiv = document.getElementById('message');
+          const rowToDelete = document.getElementById("row-" + questionId);
+
+          // Display the response message
+          messageDiv.innerText = responseObject.message;
+          messageDiv.className = 'alert show';
+          
+          if (responseObject.status == 1) {
+            messageDiv.classList.add("alert-success");
+            if (rowToDelete) {
+              rowToDelete.remove();
+
+              // Check if any rows are left
+              const tableBody = document.getElementById('tableBody');
+              const remainingRows = tableBody.querySelectorAll('tr').length;
+
+              if (remainingRows === 0) {
+                // If no rows left, add "no questions" message
+                const noQuestionsRow = document.createElement("tr");
+                noQuestionsRow.id = 'no-qn-mes-row';
+                noQuestionsRow.innerHTML = `<td colspan=9><span class="no-qn-mes">No questions available</span></td>`;
+                tableBody.appendChild(noQuestionsRow);
+              }
+            }
+
+            // Fade out message after 3 seconds
+            setTimeout(() => {
+              messageDiv.classList.remove("show");
+            }, 3000);
+          } else {
+            // Handle error scenario
+            messageDiv.classList.add("alert-danger");
+            setTimeout(() => {
+              messageDiv.classList.remove("show");
+            }, 5000); // 5 seconds for error message
+          }
+        }
+      };
+      
+      // Use the POST method and set the appropriate content type
+      xhttp.open("POST", "?route=question_manage");
+      xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+      // Send the request with the questionId as data
+      let data = `action=delete&question_id=${questionId}`;
+      xhttp.send(data);
+    }
+  });
+}
+
